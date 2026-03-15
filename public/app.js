@@ -30632,10 +30632,10 @@
      *
      * `options` is treated as:
      *
-     * *   `string` or `Uint8Array` — `{value: options}`
-     * *   `URL` — `{path: options}`
-     * *   `VFile` — shallow copies its data over to the new file
-     * *   `object` — all fields are shallow copied over to the new file
+     * *   `string` or `Uint8Array` - `{value: options}`
+     * *   `URL` - `{path: options}`
+     * *   `VFile` - shallow copies its data over to the new file
+     * *   `object` - all fields are shallow copied over to the new file
      *
      * Path related fields are set in the following order (least specific to
      * most specific): `history`, `path`, `basename`, `stem`, `extname`,

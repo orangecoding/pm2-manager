@@ -6,7 +6,7 @@
 import React from "react";
 
 /**
- * Sticky app footer — always visible at the bottom of the viewport.
+ * Sticky app footer - always visible at the bottom of the viewport.
  * Spans the full width of the grid (sidebar + content).
  *
  * @param {{ version: string|null }} props

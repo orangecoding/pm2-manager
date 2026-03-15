@@ -49,7 +49,7 @@
 >   apps: [{ name: 'my-app', script: 'app.js', time: true }]
 > };
 > ```
-> Without `--time`, PM2 writes no timestamp to log lines and log sorting across multiple log files (stdout + stderr) will not work — error lines will always appear after info lines.
+> Without `--time`, PM2 writes no timestamp to log lines and log sorting across multiple log files (stdout + stderr) will not work - error lines will always appear after info lines.
 
 ---
 
@@ -140,6 +140,55 @@ All settings live in a single `.env` file in the project root:
 | `COOKIE_SECURE` | `auto` | `auto` / `always` / `never` |
 | `TRUST_PROXY` | `0` | Set to `1` behind a reverse proxy |
 | `MAX_LOG_BYTES_PER_FILE` | `5242880` | Max bytes read per PM2 log file |
+
+---
+
+## ⚡ Custom Actions with tx2
+
+PM2 Manager can display and trigger custom actions that your app exposes to PM2. This is done via **[tx2](https://github.com/pm2/tx2)**, the official PM2 instrumentation library.
+
+### 1. Install tx2
+
+```bash
+npm install tx2
+```
+
+### 2. Define actions in your app
+
+Call `tx2.action()` anywhere in your process - tx2 registers it with the PM2 daemon automatically.
+
+```js
+import tx2 from 'tx2';
+
+// Simple action - no parameters
+tx2.action('clear cache', (done) => {
+  myCache.flush();
+  done({ success: true });
+});
+
+// Action with a parameter
+tx2.action('set log level', (level, done) => {
+  logger.setLevel(level);
+  done({ level });
+});
+```
+
+> [!TIP]
+> `done()` must always be called - it signals to PM2 that the action has completed and sends the return value back to the dashboard.
+
+### 3. Trigger actions from PM2 Manager
+
+Once your process is running, open it in PM2 Manager. Any registered actions appear as buttons in the **Actions** panel. Click one to trigger it instantly - the response is shown inline.
+
+### What you can do with tx2
+
+| API | Purpose |
+|---|---|
+| `tx2.action(name, fn)` | Register a triggerable action |
+| `tx2.action(name, { arity: 1 }, fn)` | Action that accepts a parameter |
+| `tx2.metric(name, fn)` | Expose a live metric (shown in PM2 describe) |
+| `tx2.counter(name)` | Incrementing counter |
+| `tx2.histogram(name)` | Value distribution histogram |
 
 ---
 

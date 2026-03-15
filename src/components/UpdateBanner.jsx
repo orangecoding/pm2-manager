@@ -20,7 +20,7 @@ export default function UpdateBanner() {
   const [dismissed, setDismiss] = useState(false);
   const panelRef                = useRef(null);
 
-  // Fetch once on mount; no interval — the backend does the polling.
+  // Fetch once on mount; no interval - the backend does the polling.
   useEffect(() => {
     fetchJson("/api/update")
       .then(({ update: info }) => {

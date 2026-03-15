@@ -4,7 +4,7 @@
  */
 
 /**
- * Mocha setup file — runs before any spec files are loaded.
+ * Mocha setup file - runs before any spec files are loaded.
  *
  * Injects known test credentials so that integration tests can log in with
  * a predictable password without depending on the .env file's actual hash.

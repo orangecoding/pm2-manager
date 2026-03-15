@@ -1,4 +1,4 @@
-# CLAUDE.md — pm2-manager
+# CLAUDE.md - pm2-manager
 
 ## Project Overview
 
@@ -78,8 +78,8 @@ Copy `.env.example` to `.env` and populate all values before starting the server
 | `HOST`                  | `0.0.0.0`     | Bind address                                    |
 | `PORT`                  | `3030`        | HTTP and WebSocket port                         |
 | `AUTH_USERNAME`         | `admin`       | Login username (case-insensitive)               |
-| `AUTH_PASSWORD_SALT`    | —             | Hex-encoded salt                                |
-| `AUTH_PASSWORD_HASH`    | —             | Hex-encoded scrypt hash (64 bytes)              |
+| `AUTH_PASSWORD_SALT`    | -             | Hex-encoded salt                                |
+| `AUTH_PASSWORD_HASH`    | -             | Hex-encoded scrypt hash (64 bytes)              |
 | `SESSION_TTL_MS`        | `28800000`    | Session lifetime in ms (default: 8 h)           |
 | `COOKIE_SECURE`         | `auto`        | `auto` / `always` / `never`                     |
 | `TRUST_PROXY`           | `0`           | Set to `1` when running behind a reverse proxy  |
@@ -115,7 +115,7 @@ This ensures the dashboard is supervised and auto-restarted, and is included in 
 
 ## PM2 Requirements
 
-All managed PM2 processes should be started with the `--time` flag so that log lines include timestamps. pm2-manager merges stdout and stderr and sorts lines chronologically — without timestamps, this sort is undefined and error lines will always appear after info lines.
+All managed PM2 processes should be started with the `--time` flag so that log lines include timestamps. pm2-manager merges stdout and stderr and sorts lines chronologically - without timestamps, this sort is undefined and error lines will always appear after info lines.
 
 ```bash
 pm2 start app.js --name my-app --time
