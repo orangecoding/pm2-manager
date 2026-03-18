@@ -73,18 +73,18 @@ describe('Monitoring API', () => {
     });
   });
 
-  // POST /api/processes/:id/monitoring ──────────────────────────────────────
+  // POST /api/monitoring ────────────────────────────────────────────────────
 
-  describe('POST /api/processes/:id/monitoring', () => {
+  describe('POST /api/monitoring', () => {
     it('enables monitoring when monitored=true', async () => {
       // Get a fresh CSRF token.
       const { cookie, csrfToken } = await getAuthSession();
 
       const res = await request(app)
-        .post('/api/processes/some-app/monitoring')
+        .post('/api/monitoring')
         .set('Cookie', cookie)
         .set('X-CSRF-Token', csrfToken)
-        .send({ monitored: true });
+        .send({ pm2Name: 'some-app', monitored: true });
 
       expect(res.status).to.equal(200);
       expect(res.body.ok).to.equal(true);
@@ -96,10 +96,10 @@ describe('Monitoring API', () => {
       const { cookie, csrfToken } = await getAuthSession();
 
       const res = await request(app)
-        .post('/api/processes/some-app/monitoring')
+        .post('/api/monitoring')
         .set('Cookie', cookie)
         .set('X-CSRF-Token', csrfToken)
-        .send({ monitored: false });
+        .send({ pm2Name: 'some-app', monitored: false });
 
       expect(res.status).to.equal(200);
       expect(res.body.ok).to.equal(true);
@@ -110,10 +110,10 @@ describe('Monitoring API', () => {
       const { cookie, csrfToken } = await getAuthSession();
 
       const res = await request(app)
-        .post('/api/processes/some-app/monitoring')
+        .post('/api/monitoring')
         .set('Cookie', cookie)
         .set('X-CSRF-Token', csrfToken)
-        .send({ monitored: 'yes' });
+        .send({ pm2Name: 'some-app', monitored: 'yes' });
 
       expect(res.status).to.equal(400);
     });
@@ -122,11 +122,25 @@ describe('Monitoring API', () => {
       const { cookie } = await getAuthSession();
 
       const res = await request(app)
-        .post('/api/processes/some-app/monitoring')
+        .post('/api/monitoring')
         .set('Cookie', cookie)
-        .send({ monitored: true });
+        .send({ pm2Name: 'some-app', monitored: true });
 
       expect(res.status).to.equal(403);
+    });
+
+    it('supports process names with spaces', async () => {
+      const { cookie, csrfToken } = await getAuthSession();
+
+      const res = await request(app)
+        .post('/api/monitoring')
+        .set('Cookie', cookie)
+        .set('X-CSRF-Token', csrfToken)
+        .send({ pm2Name: 'Daily-Digest Aggregator', monitored: true });
+
+      expect(res.status).to.equal(200);
+      expect(res.body.ok).to.equal(true);
+      expect(res.body.pm2Name).to.equal('Daily-Digest Aggregator');
     });
   });
 

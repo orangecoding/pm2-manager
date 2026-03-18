@@ -311,10 +311,10 @@ export default function App() {
     const onToggleMonitoring = useCallback(async (pm2Name, currentlyMonitored) => {
         if (!csrfToken) return;
         try {
-            await fetchJson(`/api/processes/${encodeURIComponent(pm2Name)}/monitoring`, {
+            await fetchJson(`/api/monitoring`, {
                 method: "POST",
                 headers: {"X-CSRF-Token": csrfToken, "Content-Type": "application/json"},
-                body: JSON.stringify({monitored: !currentlyMonitored}),
+                body: JSON.stringify({pm2Name, monitored: !currentlyMonitored}),
             });
             await refreshCsrf();
 

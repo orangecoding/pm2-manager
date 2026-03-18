@@ -32412,10 +32412,10 @@
     const onToggleMonitoring = (0, import_react12.useCallback)(async (pm2Name, currentlyMonitored) => {
       if (!csrfToken) return;
       try {
-        await fetchJson(`/api/processes/${encodeURIComponent(pm2Name)}/monitoring`, {
+        await fetchJson(`/api/monitoring`, {
           method: "POST",
           headers: { "X-CSRF-Token": csrfToken, "Content-Type": "application/json" },
-          body: JSON.stringify({ monitored: !currentlyMonitored })
+          body: JSON.stringify({ pm2Name, monitored: !currentlyMonitored })
         });
         await refreshCsrf();
         const newMonitored = !currentlyMonitored;
@@ -32545,4 +32545,3 @@ react/cjs/react-jsx-runtime.development.js:
    * LICENSE file in the root directory of this source tree.
    *)
 */
-//# sourceMappingURL=app.js.map
