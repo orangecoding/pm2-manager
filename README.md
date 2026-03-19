@@ -1,15 +1,14 @@
 <p align="center">
   <h1 align="center">PM2-Hawkeye</h1>
+<p align="center">
 
-    <p align="center">
-      <a href="https://orange-coding.net/">
-      <picture>
-        <source media="(prefers-color-scheme: dark)" srcset="https://github.com/orangecoding/pm2-hawkeye/blob/master/media/logo.png" width="200">
-        <source media="(prefers-color-scheme: light)" srcset="https://github.com/orangecoding/pm2-hawkeye/blob/master/media/logo.png" width="200">
-      </picture>
-      </a>
-    </p>
-
+<a href="https://orange-coding.net/">
+<picture>
+  <img alt="Jetbrains Open Source" src="https://github.com/orangecoding/pm2-hawkeye/blob/master/media/logo.png" width="200">
+</picture>
+</a>
+</p>
+  
   <p align="center"><strong>A modern, real-time web dashboard for your PM2 processes.</strong></p>
   <p align="center">Monitor, restart, and tail logs - all from a sleek dark-mode UI.</p>
 </p>
