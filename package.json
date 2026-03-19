@@ -1,6 +1,6 @@
 {
-  "name": "pm2-manager",
-  "version": "2.1.0",
+  "name": "pm2-hawkeye",
+  "version": "2.1.1",
   "description": "Modern web dashboard for PM2 processes, metrics, and log files",
   "type": "module",
   "main": "lib/transport/server.js",
@@ -24,7 +24,7 @@
   ],
   "license": "Apache-2.0",
   "bugs": {
-    "url": "https://github.com/orangecoding/pm2-manager/issues"
+    "url": "https://github.com/orangecoding/pm2-hawkeye/issues"
   },
   "engines": {
     "node": ">=22.0.0",

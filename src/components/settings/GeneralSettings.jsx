@@ -70,7 +70,7 @@ export default function GeneralSettings({csrfToken, onCsrfRefresh}) {
                 body: JSON.stringify({settings}),
             });
             await onCsrfRefresh();
-            setNotice({type: 'success', text: 'Saved - please restart pm2-manager for changes to take effect.'});
+            setNotice({type: 'success', text: 'Saved - please restart pm2-hawkeye for changes to take effect.'});
             setNewPassword('');
         } catch (err) {
             setNotice({type: 'error', text: err.message ?? 'Save failed.'});
@@ -95,7 +95,7 @@ export default function GeneralSettings({csrfToken, onCsrfRefresh}) {
             <h2 className="settings-page-title">General Settings</h2>
 
             <div className="settings-notice">
-                Changes are written to your .env file. A restart of pm2-manager is required for them to take effect.
+                Changes are written to your .env file. A restart of pm2-hawkeye is required for them to take effect.
             </div>
 
             {notice && (

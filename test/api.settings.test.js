@@ -187,7 +187,7 @@ describe('GET /api/settings/general', () => {
 describe('POST /api/settings/general', () => {
   it('returns { ok: true, restartRequired: true }', async () => {
     // Point the env path to a temp file to avoid touching the real .env.
-    const tmpEnv = path.join(os.tmpdir(), `pm2-manager-test-${Date.now()}.env`);
+    const tmpEnv = path.join(os.tmpdir(), `pm2-hawkeye-test-${Date.now()}.env`);
     fs.writeFileSync(tmpEnv, 'HOST=0.0.0.0\nPORT=3030\n', 'utf8');
 
     const { cookie, csrfToken } = await getAuthSession();

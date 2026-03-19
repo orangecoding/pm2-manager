@@ -1,5 +1,5 @@
 name: Feature Request
-description: Suggest an improvement or new idea for PM2-Manager
+description: Suggest an improvement or new idea for pm2-hawkeye
 title: "[Feature]: "
 labels: [enhancement]
 assignees: []
@@ -19,7 +19,7 @@ body:
     attributes:
       label: Proposed Feature
       description: Describe the feature you would like to see.
-      placeholder: "I would like PM2-Manager to automatically..."
+      placeholder: "I would like pm2-hawkeye to automatically..."
     validations:
       required: true
 
@@ -36,7 +36,7 @@ body:
     id: benefits
     attributes:
       label: Benefits
-      description: Explain how this feature would improve PM2-Manager or it's user experience.
+      description: Explain how this feature would improve pm2-hawkeye or it's user experience.
       placeholder: "This would save users time by..."
     validations:
       required: true

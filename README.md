@@ -18,7 +18,7 @@
   <img src="https://img.shields.io/badge/license-Apache--2.0-blue" alt="License" />
   <img src="https://img.shields.io/badge/frontend-React%2019-61dafb?logo=react" alt="React" />
   <img src="https://img.shields.io/badge/transport-WebSockets-blueviolet" alt="WebSockets" />
-  <img src="https://github.com/orangecoding/pm2-manager/actions/workflows/test.yml/badge.svg" alt="Tests" />
+  <img src="https://github.com/orangecoding/pm2-hawkeye/actions/workflows/test.yml/badge.svg" alt="Tests" />
 </p>
 
 ---
@@ -77,8 +77,8 @@ Monitoring state survives server restarts. You can stop monitoring at any time -
 ### 1. Clone & install
 
 ```bash
-git clone https://github.com/orangecoding/pm2-manager.git
-cd pm2-manager
+git clone https://github.com/orangecoding/pm2-hawkeye.git
+cd pm2-hawkeye
 yarn install
 ```
 
@@ -116,7 +116,7 @@ The recommended production setup is to run PM2-Hawkeye as a PM2 process itself s
 
 ```bash
 npm run build
-pm2 start lib/transport/server.js --name pm2-manager
+pm2 start lib/transport/server.js --name pm2-hawkeye
 pm2 save
 ```
 
@@ -135,7 +135,7 @@ It will:
 1. Pull the latest commits from upstream (fast-forward only - aborts if there are local changes)
 2. Install or update Node.js dependencies
 3. Rebuild the frontend bundle
-4. Restart the `pm2-manager` process under PM2 (if running)
+4. Restart the `pm2-hawkeye` process under PM2 (if running)
 
 Make the script executable once before first use:
 
@@ -146,11 +146,11 @@ chmod +x update.sh
 If PM2-Hawkeye is not running under PM2 when the script finishes, it will print the commands to start it manually.
 
 > [!NOTE]
-> **Database location** — by default the database is written to `./data/pm2-manager.db` inside the project directory. If you update by replacing the project folder (e.g. re-cloning), this file will be lost. Point `SQLITE_DB_PATH` at a directory outside the project to keep your data safe across updates (`pm2-manager.db` is created inside it automatically):
+> **Database location** — by default the database is written to `./data/pm2-hawkeye.db` inside the project directory. If you update by replacing the project folder (e.g. re-cloning), this file will be lost. Point `SQLITE_DB_PATH` at a directory outside the project to keep your data safe across updates (`pm2-hawkeye.db` is created inside it automatically):
 > ```bash
-> SQLITE_DB_PATH=/var/lib/pm2-manager
+> SQLITE_DB_PATH=/var/lib/pm2-hawkeye
 > ```
-> Create the directory first: `mkdir -p /var/lib/pm2-manager`
+> Create the directory first: `mkdir -p /var/lib/pm2-hawkeye`
 
 > [!NOTE]
 > **PM2 timestamps** — PM2-Hawkeye merges stdout and stderr and sorts log lines chronologically. This requires PM2 to prefix each line with a timestamp. Always start your processes with `--time`:
@@ -206,7 +206,7 @@ All settings are read from a `.env` file in the project root. Copy `.env.example
 
 | Variable | Default | Description |
 |---|---|---|
-| `SQLITE_DB_PATH` | `./data` | Directory for the SQLite database (`pm2-manager.db` is created inside) |
+| `SQLITE_DB_PATH` | `./data` | Directory for the SQLite database (`pm2-hawkeye.db` is created inside) |
 | `METRICS_RETENTION_MS` | `86400000` | How long metric samples are kept (24 h) |
 | `LOGS_RETENTION_MS` | `1209600000` | How long log entries are kept (14 days) |
 | `MAX_LOG_BYTES_PER_FILE` | `5242880` | Max bytes read per PM2 log file (5 MB) |

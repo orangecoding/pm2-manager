@@ -11,7 +11,7 @@ import chalk from 'chalk';
 import { fileURLToPath } from 'url';
 
 /**
- * Release Tool for PM2-Manager
+ * Release Tool for pm2-hawkeye
  *
  * This tool automates the process of creating a GitHub release.
  * It fetches the latest release, compares it with the current master branch,
@@ -24,7 +24,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 // Configuration and Paths
 const CONFIG_PATH = path.join(__dirname, 'config.json');
 const PACKAGE_JSON_PATH = path.join(__dirname, '../../package.json');
-const REPO = 'orangecoding/pm2-manager';
+const REPO = 'orangecoding/pm2-hawkeye';
 const config = JSON.parse(fs.readFileSync(CONFIG_PATH, 'utf8'));
 const GITHUB_TOKEN = config.github_token;
 

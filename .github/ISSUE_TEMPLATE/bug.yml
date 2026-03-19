@@ -1,5 +1,5 @@
 name: Bug Report
-description: Help us improve PM2-Manager by reporting a bug
+description: Help us improve pm2-hawkeye by reporting a bug
 title: "[Bug]: "
 labels: [bug]
 assignees: []
@@ -10,7 +10,7 @@ body:
     attributes:
       label: Bug Description
       description: Provide a clear and concise description of the bug.
-      placeholder: e.g. "PM2-Manager crashes when I click on Save."
+      placeholder: e.g. "pm2-hawkeye crashes when I click on Save."
     validations:
       required: true
 
@@ -41,7 +41,7 @@ body:
     attributes:
       label: Actual Behavior
       description: What actually happened?
-      placeholder: "PM2-Manager crashed with error XYZ."
+      placeholder: "pm2-hawkeye crashed with error XYZ."
     validations:
       required: true
 

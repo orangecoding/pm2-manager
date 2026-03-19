@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# update.sh — update a self-hosted pm2-manager installation to the latest version.
+# update.sh — update a self-hosted pm2-hawkeye installation to the latest version.
 #
 # Usage:
 #   chmod +x update.sh
@@ -9,7 +9,7 @@
 #   1. Pulls the latest commits from the upstream repository (fast-forward only).
 #   2. Installs / updates Node.js dependencies.
 #   3. Rebuilds the frontend bundle.
-#   4. Restarts the pm2-manager process under PM2 (if running).
+#   4. Restarts the pm2-hawkeye process under PM2 (if running).
 
 set -euo pipefail
 
@@ -46,15 +46,15 @@ fi
 info "Building frontend..."
 npm run build
 
-# ── 4. Restart pm2-manager ───────────────────────────────────────────────────
-if command -v pm2 &>/dev/null && pm2 describe pm2-manager &>/dev/null 2>&1; then
-    info "Restarting pm2-manager via PM2..."
-    pm2 restart pm2-manager
+# ── 4. Restart pm2-hawkeye ───────────────────────────────────────────────────
+if command -v pm2 &>/dev/null && pm2 describe pm2-hawkeye &>/dev/null 2>&1; then
+    info "Restarting pm2-hawkeye via PM2..."
+    pm2 restart pm2-hawkeye
     pm2 save
-    info "Done. pm2-manager is running the latest version."
+    info "Done. pm2-hawkeye is running the latest version."
 else
-    warn "pm2-manager is not running under PM2."
+    warn "pm2-hawkeye is not running under PM2."
     warn "Start it manually with:"
-    warn "  pm2 start lib/transport/server.js --name pm2-manager"
+    warn "  pm2 start lib/transport/server.js --name pm2-hawkeye"
     warn "  pm2 save"
 fi

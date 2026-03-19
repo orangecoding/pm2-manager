@@ -1,8 +1,8 @@
-# CLAUDE.md - pm2-manager
+# CLAUDE.md - pm2-hawkeye
 
 ## Project Overview
 
-pm2-manager is a modern, real-time web dashboard for PM2 processes. It provides live process monitoring (CPU, memory, uptime, restart count), real-time log streaming (stdout + stderr merged and sorted chronologically), one-click process restart with confirmation, and support for triggering PM2 custom actions (`axm_actions`). The entire transport layer is WebSocket-based, no polling, no SSE.
+pm2-hawkeye is a modern, real-time web dashboard for PM2 processes. It provides live process monitoring (CPU, memory, uptime, restart count), real-time log streaming (stdout + stderr merged and sorted chronologically), one-click process restart with confirmation, and support for triggering PM2 custom actions (`axm_actions`). The entire transport layer is WebSocket-based, no polling, no SSE.
 
 The app must run on the same server as the PM2 daemon. It communicates with PM2 via its local API. Remote connections are not supported.
 
@@ -101,11 +101,11 @@ node -e "
 
 ## Running in Production
 
-The recommended way is to run pm2-manager as a PM2 process itself:
+The recommended way is to run pm2-hawkeye as a PM2 process itself:
 
 ```bash
 npm run build
-pm2 start lib/transport/server.js --name pm2-manager
+pm2 start lib/transport/server.js --name pm2-hawkeye
 pm2 save
 ```
 
@@ -115,7 +115,7 @@ This ensures the dashboard is supervised and auto-restarted, and is included in 
 
 ## PM2 Requirements
 
-All managed PM2 processes should be started with the `--time` flag so that log lines include timestamps. pm2-manager merges stdout and stderr and sorts lines chronologically - without timestamps, this sort is undefined and error lines will always appear after info lines.
+All managed PM2 processes should be started with the `--time` flag so that log lines include timestamps. pm2-hawkeye merges stdout and stderr and sorts lines chronologically - without timestamps, this sort is undefined and error lines will always appear after info lines.
 
 ```bash
 pm2 start app.js --name my-app --time
