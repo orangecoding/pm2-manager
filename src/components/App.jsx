@@ -139,7 +139,7 @@ export default function App() {
 
     // Fetch stored logs whenever the selected process changes, regardless of monitoring
     // state.  storedLogsReady gates the switch in allLines so combinedLines remain
-    // visible until the fetch settles — preventing a blank flash on load.
+    // visible until the fetch settles - preventing a blank flash on load.
     useEffect(() => {
         setStoredLogsReady(false);
         if (selectedProcessId === null || selectedProcessId === undefined) {
@@ -406,7 +406,7 @@ export default function App() {
                                     <li>Sparkline trend charts in the metrics panel</li>
                                 </ul>
                                 <p className="welcome-hints-note">
-                                    Without monitoring, you only see live data — nothing is persisted between page loads.
+                                    Without monitoring, you only see live data - nothing is persisted between page loads.
                                 </p>
                             </div>
                         </div>

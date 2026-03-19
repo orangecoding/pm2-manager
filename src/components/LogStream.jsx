@@ -79,7 +79,7 @@ export default function LogStream({details, allLines, logRef, isMonitored, unrea
 
     const emptyText = isMonitored
         ? "No log entries stored yet. New log lines will appear here as they are written."
-        : "No log output yet. Note: logs are not being saved — enable monitoring to persist them.";
+        : "No log output yet. Note: logs are not being saved - enable monitoring to persist them.";
 
     return (
         <section className="panel section-shell">

@@ -93,7 +93,7 @@ export default function MonitoringNotice({ isMonitored, pm2Name, onToggleMonitor
                     <span className="monitoring-notice-dot monitoring-notice-dot--active" />
                     <span className="monitoring-notice-text">
                         <strong>Monitoring active</strong>
-                        {" — "}
+                        {" - "}
                         metrics sampled every 20 s (stored {metricsLabel}) &middot; logs stored for {logsLabel}!
                     </span>
                 </div>
