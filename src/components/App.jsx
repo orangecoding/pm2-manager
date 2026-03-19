@@ -59,6 +59,7 @@ export default function App() {
     const logRef = useRef(null);
     const autoStickRef = useRef(true);
     const prevLiveLinesLengthRef = useRef(0);
+    const wsRef = useRef(null);
 
     const loadProcesses = useCallback(async () => {
         setProcessListStatus("Loading processes…");
@@ -89,28 +90,43 @@ export default function App() {
             .catch((sessionError) => setError(sessionError.message));
     }, [loadProcesses]);
 
-    // WebSocket stream for process list updates every 3 seconds.
+    // Single unified WebSocket connection for all real-time data.
     useEffect(() => {
         const protocol = window.location.protocol === "https:" ? "wss:" : "ws:";
-        const ws = new WebSocket(`${protocol}//${window.location.host}/ws/processes/stream`);
+        const ws = new WebSocket(`${protocol}//${window.location.host}/ws/stream`);
+        wsRef.current = ws;
+
+        ws.onopen = () => setWsConnected(true);
+        ws.onclose = () => { setWsConnected(false); wsRef.current = null; };
+        ws.onerror = () => setWsConnected(false);
+
         ws.onmessage = (event) => {
             try {
                 const {type, data} = JSON.parse(event.data);
                 if (type === "processes") {
                     setProcesses(data.items);
                     setProcessListStatus(`${data.processCount} process(es)`);
-                    // Keep selection if the process still exists (match by id OR name for orphans).
                     setSelectedProcessId((prev) =>
                         data.items.some((item) => String(item.id ?? item.name) === String(prev))
                             ? prev
                             : (data.items[0]?.id ?? data.items[0]?.name ?? null)
                     );
+                } else if (type === "details") {
+                    setDetails(data);
+                } else if (type === "snapshot") {
+                    setLiveLines(data.lines.map((l) => ({text: l.text})));
+                } else if (type === "log") {
+                    setLiveLines((prev) => [...prev, {text: data.text}].slice(-800));
+                } else if (type === "error") {
+                    setError(data.error);
                 }
+                // heartbeat and connected are intentionally ignored
             } catch {
                 // Ignore malformed messages.
             }
         };
-        return () => ws.close();
+
+        return () => { ws.close(); wsRef.current = null; };
     }, []);
 
     // Derived: the full process object for the current selection (handles orphans with id=null).
@@ -142,21 +158,25 @@ export default function App() {
             });
     }, [selectedProcessId]);
 
+    // Reset local state and send select/deselect to the unified WS when the
+    // selected process changes.  wsConnected is included so that on reconnect
+    // the server is immediately told which process to stream.
     useEffect(() => {
+        setDetails(null);
+        setLiveLines([]);
+        setActions([]);
+        setMetricsHistory([]);
+        setUnreadLogCount(0);
+        prevLiveLinesLengthRef.current = 0;
+        autoStickRef.current = true;
+
         if (selectedProcessId === null || selectedProcessId === undefined) {
-            setDetails(null);
-            setLiveLines([]);
-            setActions([]);
-            setMetricsHistory([]);
-            setUnreadLogCount(0);
-            prevLiveLinesLengthRef.current = 0;
-            autoStickRef.current = true;
+            wsRef.current?.send(JSON.stringify({type: "deselect"}));
             return;
         }
-        autoStickRef.current = true;
-        setUnreadLogCount(0);
-        // Fetch stored metrics history when a process is selected.
-        setMetricsHistory([]);
+
+        wsRef.current?.send(JSON.stringify({type: "select", data: {processId: String(selectedProcessId)}}));
+
         fetchJson(`/api/processes/${encodeURIComponent(selectedProcessId)}/metrics`)
             .then((payload) => setMetricsHistory(payload.samples || []))
             .catch(() => setMetricsHistory([]));
@@ -164,51 +184,7 @@ export default function App() {
         fetchJson(`/api/processes/${encodeURIComponent(selectedProcessId)}/actions`)
             .then((payload) => setActions(payload.actions || []))
             .catch(() => setActions([]));
-        setLiveLines([]);
-        const protocol = window.location.protocol === "https:" ? "wss:" : "ws:";
-        const ws = new WebSocket(`${protocol}//${window.location.host}/ws/processes/${encodeURIComponent(selectedProcessId)}/details`);
-        ws.onmessage = (event) => {
-            try {
-                const {type, data} = JSON.parse(event.data);
-                if (type === "details") {
-                    setDetails(data);
-                } else if (type === "error") {
-                    setError(data.error);
-                }
-            } catch {
-                // Ignore malformed messages.
-            }
-        };
-        ws.onerror = () => setError("WebSocket error loading process details");
-        return () => ws.close();
-    }, [selectedProcessId]);
-
-    useEffect(() => {
-        if (selectedProcessId === null || selectedProcessId === undefined) return undefined;
-        const protocol = window.location.protocol === "https:" ? "wss:" : "ws:";
-        const ws = new WebSocket(`${protocol}//${window.location.host}/ws/processes/${encodeURIComponent(selectedProcessId)}/logs`);
-        ws.onopen = () => setWsConnected(true);
-        ws.onmessage = (event) => {
-            try {
-                const {type, data} = JSON.parse(event.data);
-                if (type === 'snapshot') {
-                    setLiveLines(data.lines.map((l) => ({text: l.text})));
-                } else if (type === 'log') {
-                    setLiveLines((prev) => [...prev, {text: data.text}].slice(-800));
-                } else if (type === 'error') {
-                    setError(data.error);
-                }
-            } catch {
-                // Ignore malformed messages.
-            }
-        };
-        ws.onclose = () => setWsConnected(false);
-        ws.onerror = () => setWsConnected(false);
-        return () => {
-            ws.close();
-            setWsConnected(false);
-        };
-    }, [selectedProcessId]);
+    }, [selectedProcessId, wsConnected]);
 
     // Poll metrics every 20 s (matching the scheduler interval) so sparklines
     // update in real time without requiring a page refresh.
@@ -232,14 +208,15 @@ export default function App() {
         return () => container.removeEventListener("scroll", onScroll);
     }, []);
 
-    // Auto-scroll only on process switch / stored-log load, not on each new live line.
-    // New live lines are tracked via unreadLogCount and the scroll-to-bottom button.
+    // Auto-scroll only when storedLogs changes (process switch / initial load).
+    // details updates every 3 s and must not be in deps, otherwise the viewer
+    // jumps to the bottom continuously while a process is selected.
     useEffect(() => {
         const container = logRef.current;
         if (container && autoStickRef.current) {
             container.scrollTop = container.scrollHeight;
         }
-    }, [details, storedLogs]);
+    }, [storedLogs]);
 
     // Track new live lines arriving while the user has scrolled up.
     // Accumulate a count so the indicator can show how many are pending.
