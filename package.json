@@ -1,6 +1,6 @@
 {
   "name": "pm2-manager",
-  "version": "1.0.2",
+  "version": "2.0.0",
   "description": "Modern web dashboard for PM2 processes, metrics, and log files",
   "type": "module",
   "main": "lib/transport/server.js",
@@ -31,6 +31,7 @@
     "npm": ">=7.0.0"
   },
   "dependencies": {
+    "better-sqlite3": "^12.8.0",
     "cookie-parser": "^1.4.7",
     "croner": "^10.0.1",
     "dotenv": "^17.3.1",
