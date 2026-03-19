@@ -1333,7 +1333,7 @@
           return dispatcher;
         }
         "undefined" !== typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ && "function" === typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart && __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart(Error());
-        var React13 = require_react(), Internals = {
+        var React16 = require_react(), Internals = {
           d: {
             f: noop,
             r: function() {
@@ -1351,7 +1351,7 @@
           },
           p: 0,
           findDOMNode: null
-        }, REACT_PORTAL_TYPE = /* @__PURE__ */ Symbol.for("react.portal"), ReactSharedInternals = React13.__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE;
+        }, REACT_PORTAL_TYPE = /* @__PURE__ */ Symbol.for("react.portal"), ReactSharedInternals = React16.__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE;
         "function" === typeof Map && null != Map.prototype && "function" === typeof Map.prototype.forEach && "function" === typeof Set && null != Set.prototype && "function" === typeof Set.prototype.clear && "function" === typeof Set.prototype.forEach || console.error(
           "React depends on Map and Set built-in types. Make sure that you load a polyfill in older browsers. https://reactjs.org/link/react-polyfills"
         );
@@ -2886,7 +2886,7 @@
           "number" === type && getActiveElement(node2.ownerDocument) === node2 || node2.defaultValue === "" + value || (node2.defaultValue = "" + value);
         }
         function validateOptionProps(element3, props) {
-          null == props.value && ("object" === typeof props.children && null !== props.children ? React13.Children.forEach(props.children, function(child) {
+          null == props.value && ("object" === typeof props.children && null !== props.children ? React16.Children.forEach(props.children, function(child) {
             null == child || "string" === typeof child || "number" === typeof child || "bigint" === typeof child || didWarnInvalidChild || (didWarnInvalidChild = true, console.error(
               "Cannot infer the option value of complex children. Pass a `value` prop or use a plain string as children to <option>."
             ));
@@ -18518,14 +18518,14 @@
           ));
         }
         "undefined" !== typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ && "function" === typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart && __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart(Error());
-        var Scheduler = require_scheduler(), React13 = require_react(), ReactDOM = require_react_dom(), assign = Object.assign, REACT_LEGACY_ELEMENT_TYPE = /* @__PURE__ */ Symbol.for("react.element"), REACT_ELEMENT_TYPE = /* @__PURE__ */ Symbol.for("react.transitional.element"), REACT_PORTAL_TYPE = /* @__PURE__ */ Symbol.for("react.portal"), REACT_FRAGMENT_TYPE = /* @__PURE__ */ Symbol.for("react.fragment"), REACT_STRICT_MODE_TYPE = /* @__PURE__ */ Symbol.for("react.strict_mode"), REACT_PROFILER_TYPE = /* @__PURE__ */ Symbol.for("react.profiler"), REACT_CONSUMER_TYPE = /* @__PURE__ */ Symbol.for("react.consumer"), REACT_CONTEXT_TYPE = /* @__PURE__ */ Symbol.for("react.context"), REACT_FORWARD_REF_TYPE = /* @__PURE__ */ Symbol.for("react.forward_ref"), REACT_SUSPENSE_TYPE = /* @__PURE__ */ Symbol.for("react.suspense"), REACT_SUSPENSE_LIST_TYPE = /* @__PURE__ */ Symbol.for("react.suspense_list"), REACT_MEMO_TYPE = /* @__PURE__ */ Symbol.for("react.memo"), REACT_LAZY_TYPE = /* @__PURE__ */ Symbol.for("react.lazy");
+        var Scheduler = require_scheduler(), React16 = require_react(), ReactDOM = require_react_dom(), assign = Object.assign, REACT_LEGACY_ELEMENT_TYPE = /* @__PURE__ */ Symbol.for("react.element"), REACT_ELEMENT_TYPE = /* @__PURE__ */ Symbol.for("react.transitional.element"), REACT_PORTAL_TYPE = /* @__PURE__ */ Symbol.for("react.portal"), REACT_FRAGMENT_TYPE = /* @__PURE__ */ Symbol.for("react.fragment"), REACT_STRICT_MODE_TYPE = /* @__PURE__ */ Symbol.for("react.strict_mode"), REACT_PROFILER_TYPE = /* @__PURE__ */ Symbol.for("react.profiler"), REACT_CONSUMER_TYPE = /* @__PURE__ */ Symbol.for("react.consumer"), REACT_CONTEXT_TYPE = /* @__PURE__ */ Symbol.for("react.context"), REACT_FORWARD_REF_TYPE = /* @__PURE__ */ Symbol.for("react.forward_ref"), REACT_SUSPENSE_TYPE = /* @__PURE__ */ Symbol.for("react.suspense"), REACT_SUSPENSE_LIST_TYPE = /* @__PURE__ */ Symbol.for("react.suspense_list"), REACT_MEMO_TYPE = /* @__PURE__ */ Symbol.for("react.memo"), REACT_LAZY_TYPE = /* @__PURE__ */ Symbol.for("react.lazy");
         /* @__PURE__ */ Symbol.for("react.scope");
         var REACT_ACTIVITY_TYPE = /* @__PURE__ */ Symbol.for("react.activity");
         /* @__PURE__ */ Symbol.for("react.legacy_hidden");
         /* @__PURE__ */ Symbol.for("react.tracing_marker");
         var REACT_MEMO_CACHE_SENTINEL = /* @__PURE__ */ Symbol.for("react.memo_cache_sentinel");
         /* @__PURE__ */ Symbol.for("react.view_transition");
-        var MAYBE_ITERATOR_SYMBOL = Symbol.iterator, REACT_CLIENT_REFERENCE = /* @__PURE__ */ Symbol.for("react.client.reference"), isArrayImpl = Array.isArray, ReactSharedInternals = React13.__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE, ReactDOMSharedInternals = ReactDOM.__DOM_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE, NotPending = Object.freeze({
+        var MAYBE_ITERATOR_SYMBOL = Symbol.iterator, REACT_CLIENT_REFERENCE = /* @__PURE__ */ Symbol.for("react.client.reference"), isArrayImpl = Array.isArray, ReactSharedInternals = React16.__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE, ReactDOMSharedInternals = ReactDOM.__DOM_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE, NotPending = Object.freeze({
           pending: false,
           data: null,
           method: null,
@@ -21313,7 +21313,7 @@
           }
         };
         (function() {
-          var isomorphicReactPackageVersion = React13.version;
+          var isomorphicReactPackageVersion = React16.version;
           if ("19.2.4" !== isomorphicReactPackageVersion)
             throw Error(
               'Incompatible React versions: The "react" and "react-dom" packages must have the exact same version. Instead got:\n  - react:      ' + (isomorphicReactPackageVersion + "\n  - react-dom:  19.2.4\nLearn more: https://react.dev/warnings/version-mismatch")
@@ -21905,18 +21905,18 @@
         function isValidElement(object) {
           return "object" === typeof object && null !== object && object.$$typeof === REACT_ELEMENT_TYPE;
         }
-        var React13 = require_react(), REACT_ELEMENT_TYPE = /* @__PURE__ */ Symbol.for("react.transitional.element"), REACT_PORTAL_TYPE = /* @__PURE__ */ Symbol.for("react.portal"), REACT_FRAGMENT_TYPE = /* @__PURE__ */ Symbol.for("react.fragment"), REACT_STRICT_MODE_TYPE = /* @__PURE__ */ Symbol.for("react.strict_mode"), REACT_PROFILER_TYPE = /* @__PURE__ */ Symbol.for("react.profiler"), REACT_CONSUMER_TYPE = /* @__PURE__ */ Symbol.for("react.consumer"), REACT_CONTEXT_TYPE = /* @__PURE__ */ Symbol.for("react.context"), REACT_FORWARD_REF_TYPE = /* @__PURE__ */ Symbol.for("react.forward_ref"), REACT_SUSPENSE_TYPE = /* @__PURE__ */ Symbol.for("react.suspense"), REACT_SUSPENSE_LIST_TYPE = /* @__PURE__ */ Symbol.for("react.suspense_list"), REACT_MEMO_TYPE = /* @__PURE__ */ Symbol.for("react.memo"), REACT_LAZY_TYPE = /* @__PURE__ */ Symbol.for("react.lazy"), REACT_ACTIVITY_TYPE = /* @__PURE__ */ Symbol.for("react.activity"), REACT_CLIENT_REFERENCE = /* @__PURE__ */ Symbol.for("react.client.reference"), ReactSharedInternals = React13.__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE, hasOwnProperty2 = Object.prototype.hasOwnProperty, isArrayImpl = Array.isArray, createTask = console.createTask ? console.createTask : function() {
+        var React16 = require_react(), REACT_ELEMENT_TYPE = /* @__PURE__ */ Symbol.for("react.transitional.element"), REACT_PORTAL_TYPE = /* @__PURE__ */ Symbol.for("react.portal"), REACT_FRAGMENT_TYPE = /* @__PURE__ */ Symbol.for("react.fragment"), REACT_STRICT_MODE_TYPE = /* @__PURE__ */ Symbol.for("react.strict_mode"), REACT_PROFILER_TYPE = /* @__PURE__ */ Symbol.for("react.profiler"), REACT_CONSUMER_TYPE = /* @__PURE__ */ Symbol.for("react.consumer"), REACT_CONTEXT_TYPE = /* @__PURE__ */ Symbol.for("react.context"), REACT_FORWARD_REF_TYPE = /* @__PURE__ */ Symbol.for("react.forward_ref"), REACT_SUSPENSE_TYPE = /* @__PURE__ */ Symbol.for("react.suspense"), REACT_SUSPENSE_LIST_TYPE = /* @__PURE__ */ Symbol.for("react.suspense_list"), REACT_MEMO_TYPE = /* @__PURE__ */ Symbol.for("react.memo"), REACT_LAZY_TYPE = /* @__PURE__ */ Symbol.for("react.lazy"), REACT_ACTIVITY_TYPE = /* @__PURE__ */ Symbol.for("react.activity"), REACT_CLIENT_REFERENCE = /* @__PURE__ */ Symbol.for("react.client.reference"), ReactSharedInternals = React16.__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE, hasOwnProperty2 = Object.prototype.hasOwnProperty, isArrayImpl = Array.isArray, createTask = console.createTask ? console.createTask : function() {
           return null;
         };
-        React13 = {
+        React16 = {
           react_stack_bottom_frame: function(callStackForError) {
             return callStackForError();
           }
         };
         var specialPropKeyWarningShown;
         var didWarnAboutElementRef = {};
-        var unknownOwnerDebugStack = React13.react_stack_bottom_frame.bind(
-          React13,
+        var unknownOwnerDebugStack = React16.react_stack_bottom_frame.bind(
+          React16,
           UnknownOwner
         )();
         var unknownOwnerDebugTask = createTask(getTaskName(UnknownOwner));
@@ -22052,11 +22052,11 @@
   });
 
   // src/main.jsx
-  var import_react13 = __toESM(require_react(), 1);
+  var import_react16 = __toESM(require_react(), 1);
   var import_client = __toESM(require_client(), 1);
 
   // src/components/App.jsx
-  var import_react12 = __toESM(require_react(), 1);
+  var import_react15 = __toESM(require_react(), 1);
 
   // src/services/api.js
   async function fetchJson(url, options = {}) {
@@ -22126,8 +22126,8 @@
   }
 
   // src/components/ProcessList.jsx
-  function ProcessList({ processes, selectedProcessId, status, onSelect, onRefresh }) {
-    return /* @__PURE__ */ import_react.default.createElement("aside", { className: "sidebar section-shell" }, /* @__PURE__ */ import_react.default.createElement("div", { className: "brand-card" }, /* @__PURE__ */ import_react.default.createElement("p", { className: "eyebrow" }, "PM2 Inventory"), /* @__PURE__ */ import_react.default.createElement("h1", null, "Command Center"), /* @__PURE__ */ import_react.default.createElement("p", { className: "subtle" }, "Monitor processes, inspect logs, and restart services.")), /* @__PURE__ */ import_react.default.createElement("div", { className: "sidebar-toolbar" }, /* @__PURE__ */ import_react.default.createElement("button", { className: "ghost-button", type: "button", onClick: onRefresh }, "Refresh"), /* @__PURE__ */ import_react.default.createElement("div", { className: "sidebar-status" }, status)), /* @__PURE__ */ import_react.default.createElement("div", { className: "process-list", role: "listbox", "aria-label": "PM2 processes" }, processes.length ? processes.map((proc) => {
+  function ProcessList({ processes, selectedProcessId, status, onSelect, onOpenSettings, onToggleAlert }) {
+    return /* @__PURE__ */ import_react.default.createElement("aside", { className: "sidebar section-shell" }, /* @__PURE__ */ import_react.default.createElement("div", { className: "brand-card" }, /* @__PURE__ */ import_react.default.createElement("p", { className: "eyebrow" }, "PM2 Inventory"), /* @__PURE__ */ import_react.default.createElement("h1", null, "Command Center"), /* @__PURE__ */ import_react.default.createElement("p", { className: "subtle" }, "Monitor processes, inspect logs, and restart services.")), /* @__PURE__ */ import_react.default.createElement("div", { className: "sidebar-toolbar" }, /* @__PURE__ */ import_react.default.createElement("button", { className: "ghost-button", type: "button", onClick: onOpenSettings }, "Settings"), /* @__PURE__ */ import_react.default.createElement("div", { className: "sidebar-status" }, status)), /* @__PURE__ */ import_react.default.createElement("div", { className: "process-list", role: "listbox", "aria-label": "PM2 processes" }, processes.length ? processes.map((proc) => {
       const isSelected = String(proc.id ?? proc.name) === String(selectedProcessId);
       const monitoredClass = proc.isMonitored ? "monitored" : "";
       const orphanClass = proc.isOrphan ? "orphan" : "";
@@ -22147,9 +22147,21 @@
             }
           }
         },
-        /* @__PURE__ */ import_react.default.createElement("div", { className: "process-item-top" }, /* @__PURE__ */ import_react.default.createElement("span", { className: "process-title" }, proc.name), /* @__PURE__ */ import_react.default.createElement("span", { className: "process-item-controls" }, /* @__PURE__ */ import_react.default.createElement("span", { className: `status-indicator ${getStatusTone(proc.status)}` }))),
+        /* @__PURE__ */ import_react.default.createElement("div", { className: "process-item-top" }, /* @__PURE__ */ import_react.default.createElement("span", { className: "process-title" }, proc.name), /* @__PURE__ */ import_react.default.createElement("span", { className: "process-item-controls" }, proc.isMonitored && /* @__PURE__ */ import_react.default.createElement(
+          "button",
+          {
+            className: `bell-btn${proc.alertsEnabled === false ? " bell-disabled" : ""}`,
+            title: proc.alertsEnabled === false ? "Alerts muted - click to enable" : "Alerts active - click to mute",
+            onClick: (e) => {
+              e.stopPropagation();
+              onToggleAlert(proc.name, proc.alertsEnabled ?? true);
+            },
+            "aria-label": "Toggle alerts"
+          },
+          "\u{1F4E2}"
+        ), /* @__PURE__ */ import_react.default.createElement("span", { className: `status-indicator ${getStatusTone(proc.status)}` }))),
         proc.isMonitored && /* @__PURE__ */ import_react.default.createElement("div", { className: "monitor-tag-row" }, /* @__PURE__ */ import_react.default.createElement("span", { className: "monitor-tag", title: "Metrics and logs are being stored" }, /* @__PURE__ */ import_react.default.createElement("span", { className: "monitor-tag-dot" }), "Monitored")),
-        /* @__PURE__ */ import_react.default.createElement("span", { className: "process-status" }, proc.isOrphan ? "orphan \xB7 not in PM2" : `${proc.status} \xB7 ${proc.cpu}% CPU \xB7 ${formatBytes(proc.memory)}`)
+        /* @__PURE__ */ import_react.default.createElement("span", { className: "process-status" }, proc.isOrphan ? `orphan \xB7 not in PM2` : `${proc.status} \xB7 ${proc.cpu}% CPU \xB7 ${formatBytes(proc.memory)}`)
       );
     }) : /* @__PURE__ */ import_react.default.createElement("div", { className: "empty-card compact" }, /* @__PURE__ */ import_react.default.createElement("p", null, "No PM2 processes found."))));
   }
@@ -22431,7 +22443,7 @@
       }
     }
     const headerBadge = isMonitored ? /* @__PURE__ */ import_react7.default.createElement("span", { className: "stored-badge" }, /* @__PURE__ */ import_react7.default.createElement("span", { className: "stored-dot" }), "Stored") : /* @__PURE__ */ import_react7.default.createElement("span", { className: "live-badge live-badge--warning" }, /* @__PURE__ */ import_react7.default.createElement("span", { className: "pulse pulse--warning" }), "Live only");
-    const emptyText = isMonitored ? "No log entries stored yet. New log lines will appear here as they are written." : "No log output yet. Note: logs are not being saved \u2014 enable monitoring to persist them.";
+    const emptyText = isMonitored ? "No log entries stored yet. New log lines will appear here as they are written." : "No log output yet. Note: logs are not being saved - enable monitoring to persist them.";
     return /* @__PURE__ */ import_react7.default.createElement("section", { className: "panel section-shell" }, /* @__PURE__ */ import_react7.default.createElement("div", { className: "panel-header" }, /* @__PURE__ */ import_react7.default.createElement("div", null, /* @__PURE__ */ import_react7.default.createElement("p", { className: "eyebrow" }, "Log Stream"), /* @__PURE__ */ import_react7.default.createElement("h3", null, "Process logs")), /* @__PURE__ */ import_react7.default.createElement("div", { className: "log-header-right" }, /* @__PURE__ */ import_react7.default.createElement("p", { className: "subtle" }, details ? `${allLines.length} lines` : "No data"))), /* @__PURE__ */ import_react7.default.createElement("div", { className: "log-stream-wrapper" }, /* @__PURE__ */ import_react7.default.createElement("div", { ref: logRef, className: `log-stream ${allLines.length ? "" : "empty-state"}`.trim() }, /* @__PURE__ */ import_react7.default.createElement("div", { className: "log-stream-header" }, /* @__PURE__ */ import_react7.default.createElement("span", null, "Log output"), headerBadge), allLines.length ? annotatedLines.map((line, i) => {
       const effectiveLevel = line.level || line.inheritedLevel || "";
       return /* @__PURE__ */ import_react7.default.createElement(
@@ -22499,7 +22511,7 @@
           "Cancel"
         )));
       }
-      return /* @__PURE__ */ import_react8.default.createElement("div", { className: "monitoring-notice monitoring-notice--active" }, /* @__PURE__ */ import_react8.default.createElement("div", { className: "monitoring-notice-body" }, /* @__PURE__ */ import_react8.default.createElement("span", { className: "monitoring-notice-dot monitoring-notice-dot--active" }), /* @__PURE__ */ import_react8.default.createElement("span", { className: "monitoring-notice-text" }, /* @__PURE__ */ import_react8.default.createElement("strong", null, "Monitoring active"), " \u2014 ", "metrics sampled every 20 s (stored ", metricsLabel, ") \xB7 logs stored for ", logsLabel, "!")), /* @__PURE__ */ import_react8.default.createElement(
+      return /* @__PURE__ */ import_react8.default.createElement("div", { className: "monitoring-notice monitoring-notice--active" }, /* @__PURE__ */ import_react8.default.createElement("div", { className: "monitoring-notice-body" }, /* @__PURE__ */ import_react8.default.createElement("span", { className: "monitoring-notice-dot monitoring-notice-dot--active" }), /* @__PURE__ */ import_react8.default.createElement("span", { className: "monitoring-notice-text" }, /* @__PURE__ */ import_react8.default.createElement("strong", null, "Monitoring active"), " - ", "metrics sampled every 20 s (stored ", metricsLabel, ") \xB7 logs stored for ", logsLabel, "!")), /* @__PURE__ */ import_react8.default.createElement(
         "button",
         {
           className: "monitoring-notice-action monitoring-notice-action--ghost",
@@ -32200,6 +32212,418 @@
     return /* @__PURE__ */ import_react11.default.createElement("footer", { className: "app-footer" }, /* @__PURE__ */ import_react11.default.createElement("span", { className: "app-footer-version" }, "pm2-manager", version && /* @__PURE__ */ import_react11.default.createElement(import_react11.default.Fragment, null, " ", /* @__PURE__ */ import_react11.default.createElement("strong", null, "v", version))), /* @__PURE__ */ import_react11.default.createElement("span", { className: "app-footer-credit" }, "Made with ", /* @__PURE__ */ import_react11.default.createElement("span", { className: "app-footer-heart" }, "\u2764\uFE0F"), " by", " ", /* @__PURE__ */ import_react11.default.createElement("a", { href: "https://github.com/orangecoding", target: "_blank", rel: "noopener noreferrer" }, "Christian Kellner")));
   }
 
+  // src/components/Settings.jsx
+  var import_react14 = __toESM(require_react(), 1);
+
+  // src/components/settings/GeneralSettings.jsx
+  var import_react12 = __toESM(require_react(), 1);
+  var PASSWORD_KEYS = /* @__PURE__ */ new Set(["AUTH_PASSWORD_SALT", "AUTH_PASSWORD_HASH"]);
+  function GeneralSettings({ csrfToken, onCsrfRefresh }) {
+    const [fields, setFields] = (0, import_react12.useState)(null);
+    const [loading, setLoading] = (0, import_react12.useState)(true);
+    const [newPassword, setNewPassword] = (0, import_react12.useState)("");
+    const [saving, setSaving] = (0, import_react12.useState)(false);
+    const [notice, setNotice] = (0, import_react12.useState)(null);
+    (0, import_react12.useEffect)(() => {
+      fetchJson("/api/settings/general").then((payload) => {
+        setFields(payload.settings ?? {});
+      }).catch((err) => {
+        setNotice({ type: "error", text: `Failed to load settings: ${err.message}` });
+      }).finally(() => setLoading(false));
+    }, []);
+    function set(key, value) {
+      setFields((prev) => ({ ...prev, [key]: value }));
+    }
+    async function handleSave(e) {
+      e.preventDefault();
+      if (!csrfToken || !fields) return;
+      setSaving(true);
+      setNotice(null);
+      try {
+        const settings = { ...fields };
+        if (newPassword.trim()) {
+          settings.authPassword = newPassword.trim();
+        }
+        await fetchJson("/api/settings/general", {
+          method: "POST",
+          headers: { "X-CSRF-Token": csrfToken, "Content-Type": "application/json" },
+          body: JSON.stringify({ settings })
+        });
+        await onCsrfRefresh();
+        setNotice({ type: "success", text: "Saved - please restart pm2-manager for changes to take effect." });
+        setNewPassword("");
+      } catch (err) {
+        setNotice({ type: "error", text: err.message ?? "Save failed." });
+      } finally {
+        setSaving(false);
+      }
+    }
+    if (loading) {
+      return /* @__PURE__ */ import_react12.default.createElement("div", null, /* @__PURE__ */ import_react12.default.createElement("h2", { className: "settings-page-title" }, "General Settings"), /* @__PURE__ */ import_react12.default.createElement("p", { className: "settings-hint" }, "Loading..."));
+    }
+    const keys2 = fields ? Object.keys(fields) : [];
+    return /* @__PURE__ */ import_react12.default.createElement("form", { onSubmit: handleSave }, /* @__PURE__ */ import_react12.default.createElement("h2", { className: "settings-page-title" }, "General Settings"), /* @__PURE__ */ import_react12.default.createElement("div", { className: "settings-notice" }, "Changes are written to your .env file. A restart of pm2-manager is required for them to take effect."), notice && /* @__PURE__ */ import_react12.default.createElement("div", { className: `settings-notice settings-notice--${notice.type}` }, notice.text), keys2.length === 0 && /* @__PURE__ */ import_react12.default.createElement("p", { className: "settings-hint" }, "No .env file found. Fields will be created when you save."), keys2.map((key) => /* @__PURE__ */ import_react12.default.createElement("div", { className: "settings-field", key }, /* @__PURE__ */ import_react12.default.createElement("label", { htmlFor: `gs-${key}` }, key), /* @__PURE__ */ import_react12.default.createElement(
+      "input",
+      {
+        id: `gs-${key}`,
+        className: "settings-input",
+        type: PASSWORD_KEYS.has(key) ? "password" : "text",
+        value: fields[key] ?? "",
+        onChange: (e) => set(key, e.target.value),
+        autoComplete: "off"
+      }
+    ))), /* @__PURE__ */ import_react12.default.createElement("p", { className: "settings-section-title" }, "Change Password"), /* @__PURE__ */ import_react12.default.createElement("div", { className: "settings-field" }, /* @__PURE__ */ import_react12.default.createElement("label", { htmlFor: "gs-new-password" }, "New password"), /* @__PURE__ */ import_react12.default.createElement(
+      "input",
+      {
+        id: "gs-new-password",
+        className: "settings-input",
+        type: "password",
+        value: newPassword,
+        placeholder: "Leave blank to keep current",
+        onChange: (e) => setNewPassword(e.target.value),
+        autoComplete: "new-password"
+      }
+    ), /* @__PURE__ */ import_react12.default.createElement("p", { className: "settings-hint" }, "A new salt and hash will be derived automatically. The plaintext password is never stored.")), /* @__PURE__ */ import_react12.default.createElement("div", { className: "settings-save-row" }, /* @__PURE__ */ import_react12.default.createElement("button", { className: "ghost-button", type: "submit", disabled: saving || loading }, saving ? "Saving..." : "Save Changes")));
+  }
+
+  // src/components/settings/AlertingSettings.jsx
+  var import_react13 = __toESM(require_react(), 1);
+  var TEMPLATE_VARS = [
+    { name: "{logLevel}", description: "Detected log level (e.g. error, warn, info)" },
+    { name: "{log_message}", description: "The full raw log line text" },
+    { name: "{process_name}", description: "The PM2 process name" }
+  ];
+  function previewSubstitute(template) {
+    return template.replace(/\{logLevel\}/g, "error").replace(/\{log_message\}/g, "Error: 42 is not a number.").replace(/\{process_name\}/g, "my-app");
+  }
+  function buildCurlPreview(url, headers, bodyParams) {
+    const headerLines = headers.filter((h) => h.key && h.key.trim()).map((h) => `  -H "${h.key.trim()}: ${previewSubstitute(h.value ?? "")}" \\`).join("\n");
+    const bodyObj = {};
+    for (const p of bodyParams) {
+      if (p.key && p.key.trim()) {
+        const substituted = previewSubstitute(p.value ?? "");
+        try {
+          bodyObj[p.key.trim()] = JSON.parse(substituted);
+        } catch {
+          bodyObj[p.key.trim()] = substituted;
+        }
+      }
+    }
+    const bodyStr = JSON.stringify(bodyObj, null, 2);
+    const parts = [`curl -X POST "${url || "<url>"}" \\`, `  -H "Content-Type: application/json" \\`];
+    if (headerLines) parts.push(headerLines + " \\");
+    parts.push(`  -d '${bodyStr}'`);
+    return parts.join("\n");
+  }
+  function AlertingSettings({ settings, onChange, onSave, saving, saveError, csrfToken, onCsrfRefresh }) {
+    const mode = settings["alert.mode"] ?? "every";
+    const throttleMinutes = settings["alert.throttleMinutes"] ?? "60";
+    let logLevelThreshold = ["error"];
+    try {
+      const parsed = JSON.parse(settings["alert.logLevelThreshold"] ?? '["error"]');
+      if (Array.isArray(parsed)) logLevelThreshold = parsed;
+    } catch {
+    }
+    const webhookEnabled = settings["reporter.webhook.enabled"] === "1";
+    const webhookUrl = settings["reporter.webhook.url"] ?? "";
+    let webhookHeaders = [];
+    try {
+      const parsed = JSON.parse(settings["reporter.webhook.headers"] ?? "[]");
+      if (Array.isArray(parsed)) webhookHeaders = parsed;
+    } catch {
+    }
+    let webhookBody = [];
+    try {
+      const parsed = JSON.parse(settings["reporter.webhook.body"] ?? "[]");
+      if (Array.isArray(parsed)) webhookBody = parsed;
+    } catch {
+    }
+    const ntfyEnabled = settings["reporter.ntfy.enabled"] === "1";
+    const ntfyServerUrl = settings["reporter.ntfy.serverUrl"] ?? "https://ntfy.sh";
+    const ntfyTopic = settings["reporter.ntfy.topic"] ?? "";
+    const ntfyPriority = settings["reporter.ntfy.priority"] ?? "default";
+    const ntfyToken = settings["reporter.ntfy.token"] ?? "";
+    const [showNtfyToken, setShowNtfyToken] = (0, import_react13.useState)(false);
+    const [webhookTestResult, setWebhookTestResult] = (0, import_react13.useState)(null);
+    const [webhookTesting, setWebhookTesting] = (0, import_react13.useState)(false);
+    const [ntfyTestResult, setNtfyTestResult] = (0, import_react13.useState)(null);
+    const [ntfyTesting, setNtfyTesting] = (0, import_react13.useState)(false);
+    function set(key, value) {
+      onChange({ ...settings, [key]: value });
+    }
+    function toggleLevel(level) {
+      const next = logLevelThreshold.includes(level) ? logLevelThreshold.filter((l) => l !== level) : [...logLevelThreshold, level];
+      set("alert.logLevelThreshold", JSON.stringify(next));
+    }
+    function addWebhookHeader() {
+      set("reporter.webhook.headers", JSON.stringify([...webhookHeaders, { key: "", value: "" }]));
+    }
+    function updateWebhookHeader(index2, field, value) {
+      const next = webhookHeaders.map((h, i) => i === index2 ? { ...h, [field]: value } : h);
+      set("reporter.webhook.headers", JSON.stringify(next));
+    }
+    function removeWebhookHeader(index2) {
+      set("reporter.webhook.headers", JSON.stringify(webhookHeaders.filter((_, i) => i !== index2)));
+    }
+    function addWebhookBodyParam() {
+      set("reporter.webhook.body", JSON.stringify([...webhookBody, { key: "", value: "" }]));
+    }
+    function updateWebhookBodyParam(index2, field, value) {
+      const next = webhookBody.map((p, i) => i === index2 ? { ...p, [field]: value } : p);
+      set("reporter.webhook.body", JSON.stringify(next));
+    }
+    function removeWebhookBodyParam(index2) {
+      set("reporter.webhook.body", JSON.stringify(webhookBody.filter((_, i) => i !== index2)));
+    }
+    async function sendWebhookTest() {
+      if (!csrfToken) return;
+      setWebhookTesting(true);
+      setWebhookTestResult(null);
+      try {
+        const result = await fetchJson("/api/alerting/test/webhook", {
+          method: "POST",
+          headers: { "X-CSRF-Token": csrfToken, "Content-Type": "application/json" },
+          body: JSON.stringify({ url: webhookUrl, headers: webhookHeaders, body: webhookBody })
+        });
+        await onCsrfRefresh();
+        setWebhookTestResult(result);
+      } catch (err) {
+        setWebhookTestResult({ ok: false, error: err.message });
+      } finally {
+        setWebhookTesting(false);
+      }
+    }
+    async function sendNtfyTest() {
+      if (!csrfToken) return;
+      setNtfyTesting(true);
+      setNtfyTestResult(null);
+      try {
+        const result = await fetchJson("/api/alerting/test/ntfy", {
+          method: "POST",
+          headers: { "X-CSRF-Token": csrfToken, "Content-Type": "application/json" },
+          body: JSON.stringify({ serverUrl: ntfyServerUrl, topic: ntfyTopic, priority: ntfyPriority, token: ntfyToken })
+        });
+        await onCsrfRefresh();
+        setNtfyTestResult(result);
+      } catch (err) {
+        setNtfyTestResult({ ok: false, error: err.message });
+      } finally {
+        setNtfyTesting(false);
+      }
+    }
+    return /* @__PURE__ */ import_react13.default.createElement("div", null, /* @__PURE__ */ import_react13.default.createElement("h2", { className: "settings-page-title" }, "Alerting"), saveError && /* @__PURE__ */ import_react13.default.createElement("div", { className: "settings-notice settings-notice--error" }, saveError), /* @__PURE__ */ import_react13.default.createElement("p", { className: "settings-section-title" }, "When to alert"), /* @__PURE__ */ import_react13.default.createElement("div", { className: "alert-mode-options" }, /* @__PURE__ */ import_react13.default.createElement("label", null, /* @__PURE__ */ import_react13.default.createElement("input", { type: "radio", name: "alert-mode", value: "every", checked: mode === "every", onChange: () => set("alert.mode", "every") }), "Alert on every match"), /* @__PURE__ */ import_react13.default.createElement("label", null, /* @__PURE__ */ import_react13.default.createElement("input", { type: "radio", name: "alert-mode", value: "throttle", checked: mode === "throttle", onChange: () => set("alert.mode", "throttle") }), "Alert once, then wait")), mode === "throttle" && /* @__PURE__ */ import_react13.default.createElement("div", { className: "throttle-row" }, /* @__PURE__ */ import_react13.default.createElement(
+      "input",
+      {
+        className: "settings-input",
+        type: "number",
+        min: "1",
+        value: throttleMinutes,
+        onChange: (e) => set("alert.throttleMinutes", e.target.value)
+      }
+    ), /* @__PURE__ */ import_react13.default.createElement("span", null, "minutes before alerting again")), /* @__PURE__ */ import_react13.default.createElement("p", { className: "settings-section-title" }, "Log level threshold"), /* @__PURE__ */ import_react13.default.createElement("div", { className: "level-checkboxes" }, ["error", "warn", "info", "debug"].map((level) => /* @__PURE__ */ import_react13.default.createElement("label", { key: level }, /* @__PURE__ */ import_react13.default.createElement(
+      "input",
+      {
+        type: "checkbox",
+        checked: logLevelThreshold.includes(level),
+        onChange: () => toggleLevel(level)
+      }
+    ), level))), /* @__PURE__ */ import_react13.default.createElement("p", { className: "settings-hint" }, "An alert fires when a log line matches any of the selected levels."), /* @__PURE__ */ import_react13.default.createElement("p", { className: "settings-section-title" }, "Reporters"), /* @__PURE__ */ import_react13.default.createElement("div", { className: "reporter-card" }, /* @__PURE__ */ import_react13.default.createElement("div", { className: "reporter-card-header" }, /* @__PURE__ */ import_react13.default.createElement("strong", null, "Webhook"), /* @__PURE__ */ import_react13.default.createElement("label", { className: "toggle-switch", onClick: (e) => e.stopPropagation() }, /* @__PURE__ */ import_react13.default.createElement(
+      "input",
+      {
+        type: "checkbox",
+        checked: webhookEnabled,
+        onChange: (e) => set("reporter.webhook.enabled", e.target.checked ? "1" : "0")
+      }
+    ), /* @__PURE__ */ import_react13.default.createElement("span", { className: "toggle-track" }), /* @__PURE__ */ import_react13.default.createElement("span", { className: "toggle-label" }, webhookEnabled ? "Enabled" : "Disabled"))), webhookEnabled && /* @__PURE__ */ import_react13.default.createElement("div", { className: "reporter-card-body" }, /* @__PURE__ */ import_react13.default.createElement("div", { className: "settings-field" }, /* @__PURE__ */ import_react13.default.createElement("label", { htmlFor: "wh-url" }, "URL"), /* @__PURE__ */ import_react13.default.createElement(
+      "input",
+      {
+        id: "wh-url",
+        className: "settings-input",
+        type: "url",
+        value: webhookUrl,
+        placeholder: "https://hooks.example.com/alert",
+        onChange: (e) => set("reporter.webhook.url", e.target.value)
+      }
+    )), /* @__PURE__ */ import_react13.default.createElement("div", { className: "settings-field" }, /* @__PURE__ */ import_react13.default.createElement("label", null, "Headers"), webhookHeaders.map((header, i) => /* @__PURE__ */ import_react13.default.createElement("div", { className: "header-row", key: i }, /* @__PURE__ */ import_react13.default.createElement(
+      "input",
+      {
+        className: "settings-input",
+        placeholder: "Header name",
+        value: header.key,
+        onChange: (e) => updateWebhookHeader(i, "key", e.target.value)
+      }
+    ), /* @__PURE__ */ import_react13.default.createElement(
+      "input",
+      {
+        className: "settings-input",
+        placeholder: "Value",
+        value: header.value,
+        onChange: (e) => updateWebhookHeader(i, "value", e.target.value)
+      }
+    ), /* @__PURE__ */ import_react13.default.createElement("button", { type: "button", onClick: () => removeWebhookHeader(i), title: "Remove header" }, "x"))), /* @__PURE__ */ import_react13.default.createElement("button", { type: "button", className: "add-header-btn", onClick: addWebhookHeader }, "+ Add header")), /* @__PURE__ */ import_react13.default.createElement("div", { className: "settings-field" }, /* @__PURE__ */ import_react13.default.createElement("label", null, "Body params"), webhookBody.map((param, i) => /* @__PURE__ */ import_react13.default.createElement("div", { className: "header-row", key: i }, /* @__PURE__ */ import_react13.default.createElement(
+      "input",
+      {
+        className: "settings-input",
+        placeholder: "Key",
+        value: param.key,
+        onChange: (e) => updateWebhookBodyParam(i, "key", e.target.value)
+      }
+    ), /* @__PURE__ */ import_react13.default.createElement(
+      "input",
+      {
+        className: "settings-input",
+        placeholder: "Value",
+        value: param.value,
+        onChange: (e) => updateWebhookBodyParam(i, "value", e.target.value)
+      }
+    ), /* @__PURE__ */ import_react13.default.createElement("button", { type: "button", onClick: () => removeWebhookBodyParam(i), title: "Remove param" }, "x"))), /* @__PURE__ */ import_react13.default.createElement("button", { type: "button", className: "add-header-btn", onClick: addWebhookBodyParam }, "+ Add body param"), /* @__PURE__ */ import_react13.default.createElement("p", { className: "settings-hint" }, "Body values are sent as-is when they are plain strings. If a value is valid JSON (object, array, number, boolean) it is embedded directly into the body rather than wrapped in quotes. Variable substitution is applied before JSON parsing. Available variables:"), /* @__PURE__ */ import_react13.default.createElement("table", { className: "template-vars-table" }, /* @__PURE__ */ import_react13.default.createElement("tbody", null, TEMPLATE_VARS.map(({ name: name2, description }) => /* @__PURE__ */ import_react13.default.createElement("tr", { key: name2 }, /* @__PURE__ */ import_react13.default.createElement("td", null, /* @__PURE__ */ import_react13.default.createElement("code", null, name2)), /* @__PURE__ */ import_react13.default.createElement("td", null, description)))))), /* @__PURE__ */ import_react13.default.createElement("p", { className: "curl-preview-label" }, "This is what the POST request will look like:"), /* @__PURE__ */ import_react13.default.createElement("pre", { className: "curl-preview" }, buildCurlPreview(webhookUrl, webhookHeaders, webhookBody)), /* @__PURE__ */ import_react13.default.createElement("div", { className: "test-row" }, /* @__PURE__ */ import_react13.default.createElement("button", { type: "button", className: "ghost-button", onClick: sendWebhookTest, disabled: webhookTesting || !webhookUrl }, webhookTesting ? "Sending..." : "Send Test"), webhookTestResult && /* @__PURE__ */ import_react13.default.createElement("span", { className: `test-result test-result--${webhookTestResult.ok ? "ok" : "error"}` }, webhookTestResult.ok ? `Success (HTTP ${webhookTestResult.status})` : `Failed: ${webhookTestResult.error ?? `HTTP ${webhookTestResult.status}`}`)))), /* @__PURE__ */ import_react13.default.createElement("div", { className: "reporter-card" }, /* @__PURE__ */ import_react13.default.createElement("div", { className: "reporter-card-header" }, /* @__PURE__ */ import_react13.default.createElement("strong", null, "ntfy"), /* @__PURE__ */ import_react13.default.createElement("label", { className: "toggle-switch", onClick: (e) => e.stopPropagation() }, /* @__PURE__ */ import_react13.default.createElement(
+      "input",
+      {
+        type: "checkbox",
+        checked: ntfyEnabled,
+        onChange: (e) => set("reporter.ntfy.enabled", e.target.checked ? "1" : "0")
+      }
+    ), /* @__PURE__ */ import_react13.default.createElement("span", { className: "toggle-track" }), /* @__PURE__ */ import_react13.default.createElement("span", { className: "toggle-label" }, ntfyEnabled ? "Enabled" : "Disabled"))), ntfyEnabled && /* @__PURE__ */ import_react13.default.createElement("div", { className: "reporter-card-body" }, /* @__PURE__ */ import_react13.default.createElement("div", { className: "settings-field" }, /* @__PURE__ */ import_react13.default.createElement("label", { htmlFor: "ntfy-server" }, "Server URL"), /* @__PURE__ */ import_react13.default.createElement(
+      "input",
+      {
+        id: "ntfy-server",
+        className: "settings-input",
+        type: "url",
+        value: ntfyServerUrl,
+        onChange: (e) => set("reporter.ntfy.serverUrl", e.target.value)
+      }
+    )), /* @__PURE__ */ import_react13.default.createElement("div", { className: "settings-field" }, /* @__PURE__ */ import_react13.default.createElement("label", { htmlFor: "ntfy-topic" }, "Topic"), /* @__PURE__ */ import_react13.default.createElement(
+      "input",
+      {
+        id: "ntfy-topic",
+        className: "settings-input",
+        value: ntfyTopic,
+        placeholder: "my-alerts",
+        onChange: (e) => set("reporter.ntfy.topic", e.target.value)
+      }
+    )), /* @__PURE__ */ import_react13.default.createElement("div", { className: "settings-field" }, /* @__PURE__ */ import_react13.default.createElement("label", { htmlFor: "ntfy-priority" }, "Priority"), /* @__PURE__ */ import_react13.default.createElement(
+      "select",
+      {
+        id: "ntfy-priority",
+        className: "settings-select",
+        value: ntfyPriority,
+        onChange: (e) => set("reporter.ntfy.priority", e.target.value)
+      },
+      /* @__PURE__ */ import_react13.default.createElement("option", { value: "min" }, "min"),
+      /* @__PURE__ */ import_react13.default.createElement("option", { value: "low" }, "low"),
+      /* @__PURE__ */ import_react13.default.createElement("option", { value: "default" }, "default"),
+      /* @__PURE__ */ import_react13.default.createElement("option", { value: "high" }, "high"),
+      /* @__PURE__ */ import_react13.default.createElement("option", { value: "urgent" }, "urgent")
+    )), /* @__PURE__ */ import_react13.default.createElement("div", { className: "settings-field" }, /* @__PURE__ */ import_react13.default.createElement("label", { htmlFor: "ntfy-token" }, "Auth token (optional)"), /* @__PURE__ */ import_react13.default.createElement("div", { className: "token-row" }, /* @__PURE__ */ import_react13.default.createElement(
+      "input",
+      {
+        id: "ntfy-token",
+        className: "settings-input",
+        type: showNtfyToken ? "text" : "password",
+        value: ntfyToken,
+        placeholder: "tk_...",
+        onChange: (e) => set("reporter.ntfy.token", e.target.value),
+        autoComplete: "off"
+      }
+    ), /* @__PURE__ */ import_react13.default.createElement(
+      "button",
+      {
+        type: "button",
+        className: "token-toggle",
+        onClick: () => setShowNtfyToken((v) => !v)
+      },
+      showNtfyToken ? "Hide" : "Show"
+    ))), /* @__PURE__ */ import_react13.default.createElement("div", { className: "test-row" }, /* @__PURE__ */ import_react13.default.createElement("button", { type: "button", className: "ghost-button", onClick: sendNtfyTest, disabled: ntfyTesting || !ntfyTopic }, ntfyTesting ? "Sending..." : "Send Test"), ntfyTestResult && /* @__PURE__ */ import_react13.default.createElement("span", { className: `test-result test-result--${ntfyTestResult.ok ? "ok" : "error"}` }, ntfyTestResult.ok ? `Success (HTTP ${ntfyTestResult.status})` : `Failed: ${ntfyTestResult.error ?? `HTTP ${ntfyTestResult.status}`}`)))), /* @__PURE__ */ import_react13.default.createElement("div", { className: "settings-save-row" }, /* @__PURE__ */ import_react13.default.createElement("button", { className: "ghost-button", type: "button", onClick: onSave, disabled: saving }, saving ? "Saving..." : "Save Changes")));
+  }
+
+  // src/components/Settings.jsx
+  var PAGES = ["General", "Alerting"];
+  function Settings({ onClose, csrfToken, onCsrfRefresh }) {
+    const [activePage, setActivePage] = (0, import_react14.useState)("General");
+    const [alertingSettings, setAlertingSettings] = (0, import_react14.useState)({});
+    const [alertingSettingsLoaded, setAlertingSettingsLoaded] = (0, import_react14.useState)(false);
+    const [isDirty, setIsDirty] = (0, import_react14.useState)(false);
+    const [saving, setSaving] = (0, import_react14.useState)(false);
+    const [saveError, setSaveError] = (0, import_react14.useState)(null);
+    const [saveSuccess, setSaveSuccess] = (0, import_react14.useState)(false);
+    (0, import_react14.useEffect)(() => {
+      fetchJson("/api/alerting/settings").then((payload) => {
+        setAlertingSettings(payload.settings ?? {});
+        setAlertingSettingsLoaded(true);
+      }).catch(() => {
+        setAlertingSettingsLoaded(true);
+      });
+    }, []);
+    (0, import_react14.useEffect)(() => {
+      function onKeyDown(e) {
+        if (e.key === "Escape") handleClose();
+      }
+      document.addEventListener("keydown", onKeyDown);
+      return () => document.removeEventListener("keydown", onKeyDown);
+    });
+    const handleClose = (0, import_react14.useCallback)(() => {
+      if (isDirty) {
+        if (!window.confirm("You have unsaved alerting changes. Close without saving?")) return;
+      }
+      onClose();
+    }, [isDirty, onClose]);
+    function handleAlertingChange(updated) {
+      setAlertingSettings(updated);
+      setIsDirty(true);
+      setSaveSuccess(false);
+    }
+    async function handleAlertingSave() {
+      if (!csrfToken) return;
+      setSaving(true);
+      setSaveError(null);
+      setSaveSuccess(false);
+      try {
+        await fetchJson("/api/alerting/settings", {
+          method: "POST",
+          headers: { "X-CSRF-Token": csrfToken, "Content-Type": "application/json" },
+          body: JSON.stringify({ settings: alertingSettings })
+        });
+        await onCsrfRefresh();
+        setIsDirty(false);
+        setSaveSuccess(true);
+      } catch (err) {
+        setSaveError(err.message ?? "Save failed.");
+      } finally {
+        setSaving(false);
+      }
+    }
+    function handleOverlayClick(e) {
+      if (e.target === e.currentTarget) handleClose();
+    }
+    return /* @__PURE__ */ import_react14.default.createElement("div", { className: "settings-overlay", onClick: handleOverlayClick, role: "dialog", "aria-modal": "true", "aria-label": "Settings" }, /* @__PURE__ */ import_react14.default.createElement("div", { className: "settings-modal" }, /* @__PURE__ */ import_react14.default.createElement("nav", { className: "settings-sidebar" }, /* @__PURE__ */ import_react14.default.createElement("p", { className: "settings-sidebar-title" }, "Settings"), PAGES.map((page) => /* @__PURE__ */ import_react14.default.createElement(
+      "button",
+      {
+        key: page,
+        className: `settings-nav-item${activePage === page ? " active" : ""}`,
+        type: "button",
+        onClick: () => setActivePage(page)
+      },
+      page
+    )), /* @__PURE__ */ import_react14.default.createElement("div", { className: "settings-sidebar-close" }, /* @__PURE__ */ import_react14.default.createElement("button", { type: "button", onClick: handleClose }, "Close"))), /* @__PURE__ */ import_react14.default.createElement("div", { className: "settings-body" }, saveSuccess && activePage === "Alerting" && /* @__PURE__ */ import_react14.default.createElement("div", { className: "settings-notice settings-notice--success" }, "Alerting settings saved successfully."), activePage === "General" && /* @__PURE__ */ import_react14.default.createElement(
+      GeneralSettings,
+      {
+        csrfToken,
+        onCsrfRefresh
+      }
+    ), activePage === "Alerting" && alertingSettingsLoaded && /* @__PURE__ */ import_react14.default.createElement(
+      AlertingSettings,
+      {
+        settings: alertingSettings,
+        onChange: handleAlertingChange,
+        onSave: handleAlertingSave,
+        saving,
+        saveError,
+        csrfToken,
+        onCsrfRefresh
+      }
+    ))));
+  }
+
   // src/components/App.jsx
   function convertEntriesToLines(entries) {
     return entries.slice().reverse().flatMap((entry) => {
@@ -32213,27 +32637,29 @@
     });
   }
   function App() {
-    const [csrfToken, setCsrfToken] = (0, import_react12.useState)(null);
-    const [processes, setProcesses] = (0, import_react12.useState)([]);
-    const [selectedProcessId, setSelectedProcessId] = (0, import_react12.useState)(null);
-    const [details, setDetails] = (0, import_react12.useState)(null);
-    const [processListStatus, setProcessListStatus] = (0, import_react12.useState)("Loading processes\u2026");
-    const [error, setError] = (0, import_react12.useState)("");
-    const [wsConnected, setWsConnected] = (0, import_react12.useState)(false);
-    const [appVersion, setAppVersion] = (0, import_react12.useState)(null);
-    const [liveLines, setLiveLines] = (0, import_react12.useState)([]);
-    const [actions, setActions] = (0, import_react12.useState)([]);
-    const [metricsHistory, setMetricsHistory] = (0, import_react12.useState)([]);
-    const [storedLogs, setStoredLogs] = (0, import_react12.useState)([]);
-    const [storedLogsReady, setStoredLogsReady] = (0, import_react12.useState)(false);
-    const [unreadLogCount, setUnreadLogCount] = (0, import_react12.useState)(0);
-    const [metricsRetentionMs, setMetricsRetentionMs] = (0, import_react12.useState)(864e5);
-    const [logsRetentionMs, setLogsRetentionMs] = (0, import_react12.useState)(14 * 24 * 60 * 60 * 1e3);
-    const logRef = (0, import_react12.useRef)(null);
-    const autoStickRef = (0, import_react12.useRef)(true);
-    const prevLiveLinesLengthRef = (0, import_react12.useRef)(0);
-    const wsRef = (0, import_react12.useRef)(null);
-    const loadProcesses = (0, import_react12.useCallback)(async () => {
+    const [csrfToken, setCsrfToken] = (0, import_react15.useState)(null);
+    const [processes, setProcesses] = (0, import_react15.useState)([]);
+    const [selectedProcessId, setSelectedProcessId] = (0, import_react15.useState)(null);
+    const [details, setDetails] = (0, import_react15.useState)(null);
+    const [processListStatus, setProcessListStatus] = (0, import_react15.useState)("Loading processes\u2026");
+    const [error, setError] = (0, import_react15.useState)("");
+    const [wsConnected, setWsConnected] = (0, import_react15.useState)(false);
+    const [appVersion, setAppVersion] = (0, import_react15.useState)(null);
+    const [liveLines, setLiveLines] = (0, import_react15.useState)([]);
+    const [actions, setActions] = (0, import_react15.useState)([]);
+    const [metricsHistory, setMetricsHistory] = (0, import_react15.useState)([]);
+    const [storedLogs, setStoredLogs] = (0, import_react15.useState)([]);
+    const [storedLogsReady, setStoredLogsReady] = (0, import_react15.useState)(false);
+    const [unreadLogCount, setUnreadLogCount] = (0, import_react15.useState)(0);
+    const [metricsRetentionMs, setMetricsRetentionMs] = (0, import_react15.useState)(864e5);
+    const [logsRetentionMs, setLogsRetentionMs] = (0, import_react15.useState)(14 * 24 * 60 * 60 * 1e3);
+    const [settingsOpen, setSettingsOpen] = (0, import_react15.useState)(false);
+    const [appConfig, setAppConfig] = (0, import_react15.useState)(null);
+    const logRef = (0, import_react15.useRef)(null);
+    const autoStickRef = (0, import_react15.useRef)(true);
+    const prevLiveLinesLengthRef = (0, import_react15.useRef)(0);
+    const wsRef = (0, import_react15.useRef)(null);
+    const loadProcesses = (0, import_react15.useCallback)(async () => {
       setProcessListStatus("Loading processes\u2026");
       try {
         const payload = await fetchJson("/api/processes");
@@ -32249,15 +32675,16 @@
         setError(loadError.message);
       }
     }, []);
-    (0, import_react12.useEffect)(() => {
+    (0, import_react15.useEffect)(() => {
       fetchJson("/api/auth/session").then((payload) => {
         setCsrfToken(payload.csrfToken);
         if (payload.version) setAppVersion(payload.version);
         if (payload.metricsRetentionMs) setMetricsRetentionMs(payload.metricsRetentionMs);
         if (payload.logsRetentionMs) setLogsRetentionMs(payload.logsRetentionMs);
+        if (payload.config) setAppConfig(payload.config);
       }).then(loadProcesses).catch((sessionError) => setError(sessionError.message));
     }, [loadProcesses]);
-    (0, import_react12.useEffect)(() => {
+    (0, import_react15.useEffect)(() => {
       const protocol = window.location.protocol === "https:" ? "wss:" : "ws:";
       const ws = new WebSocket(`${protocol}//${window.location.host}/ws/stream`);
       wsRef.current = ws;
@@ -32293,12 +32720,12 @@
         wsRef.current = null;
       };
     }, []);
-    const selectedProcess = (0, import_react12.useMemo)(
+    const selectedProcess = (0, import_react15.useMemo)(
       () => processes.find((item) => String(item.id ?? item.name) === String(selectedProcessId)) || null,
       [processes, selectedProcessId]
     );
     const isSelectedMonitored = selectedProcess?.isMonitored ?? false;
-    (0, import_react12.useEffect)(() => {
+    (0, import_react15.useEffect)(() => {
       setStoredLogsReady(false);
       if (selectedProcessId === null || selectedProcessId === void 0) {
         setStoredLogs([]);
@@ -32313,7 +32740,7 @@
         setStoredLogsReady(true);
       });
     }, [selectedProcessId]);
-    (0, import_react12.useEffect)(() => {
+    (0, import_react15.useEffect)(() => {
       setDetails(null);
       setLiveLines([]);
       setActions([]);
@@ -32331,7 +32758,7 @@
       fetchJson(`/api/processes/${encodeURIComponent(selectedProcessId)}/metrics`).then((payload) => setMetricsHistory(payload.samples || [])).catch(() => setMetricsHistory([]));
       fetchJson(`/api/processes/${encodeURIComponent(selectedProcessId)}/actions`).then((payload) => setActions(payload.actions || [])).catch(() => setActions([]));
     }, [selectedProcessId, wsConnected]);
-    (0, import_react12.useEffect)(() => {
+    (0, import_react15.useEffect)(() => {
       if (selectedProcessId === null || selectedProcessId === void 0 || !isSelectedMonitored) return;
       const interval = setInterval(() => {
         fetchJson(`/api/processes/${encodeURIComponent(selectedProcessId)}/metrics`).then((payload) => setMetricsHistory(payload.samples || [])).catch(() => {
@@ -32339,7 +32766,7 @@
       }, 2e4);
       return () => clearInterval(interval);
     }, [selectedProcessId, isSelectedMonitored]);
-    (0, import_react12.useEffect)(() => {
+    (0, import_react15.useEffect)(() => {
       const container = logRef.current;
       if (!container) return;
       const onScroll = () => {
@@ -32348,20 +32775,20 @@
       container.addEventListener("scroll", onScroll);
       return () => container.removeEventListener("scroll", onScroll);
     }, []);
-    (0, import_react12.useEffect)(() => {
+    (0, import_react15.useEffect)(() => {
       const container = logRef.current;
       if (container && autoStickRef.current) {
         container.scrollTop = container.scrollHeight;
       }
     }, [storedLogs]);
-    (0, import_react12.useEffect)(() => {
+    (0, import_react15.useEffect)(() => {
       const added = liveLines.length - prevLiveLinesLengthRef.current;
       prevLiveLinesLengthRef.current = liveLines.length;
       if (added > 0 && !autoStickRef.current) {
         setUnreadLogCount((prev) => prev + added);
       }
     }, [liveLines]);
-    const scrollToLogBottom = (0, import_react12.useCallback)(() => {
+    const scrollToLogBottom = (0, import_react15.useCallback)(() => {
       const container = logRef.current;
       if (container) {
         container.scrollTop = container.scrollHeight;
@@ -32369,13 +32796,13 @@
         setUnreadLogCount(0);
       }
     }, []);
-    const allLines = (0, import_react12.useMemo)(() => {
+    const allLines = (0, import_react15.useMemo)(() => {
       if (isSelectedMonitored && storedLogsReady) {
         return [...storedLogs, ...liveLines];
       }
       return liveLines;
     }, [isSelectedMonitored, storedLogsReady, storedLogs, liveLines]);
-    const refreshCsrf = (0, import_react12.useCallback)(async () => {
+    const refreshCsrf = (0, import_react15.useCallback)(async () => {
       const session = await fetchJson("/api/auth/session");
       setCsrfToken(session.csrfToken);
     }, []);
@@ -32402,7 +32829,7 @@
       }
       window.location.replace("/login");
     };
-    const onToggleMonitoring = (0, import_react12.useCallback)(async (pm2Name, currentlyMonitored) => {
+    const onToggleMonitoring = (0, import_react15.useCallback)(async (pm2Name, currentlyMonitored) => {
       if (!csrfToken) return;
       try {
         await fetchJson(`/api/monitoring`, {
@@ -32436,16 +32863,35 @@
       } catch {
       }
     }, [csrfToken, refreshCsrf]);
-    return /* @__PURE__ */ import_react12.default.createElement("div", { className: "app-shell" }, /* @__PURE__ */ import_react12.default.createElement(UpdateBanner, null), /* @__PURE__ */ import_react12.default.createElement(
+    const onToggleAlert = (0, import_react15.useCallback)(async (pm2Name, currentlyEnabled) => {
+      if (!csrfToken) return;
+      setProcesses(
+        (prev) => prev.map((p) => p.name === pm2Name ? { ...p, alertsEnabled: !currentlyEnabled } : p)
+      );
+      try {
+        await fetchJson("/api/notification-prefs", {
+          method: "POST",
+          headers: { "X-CSRF-Token": csrfToken, "Content-Type": "application/json" },
+          body: JSON.stringify({ pm2Name, alertsEnabled: !currentlyEnabled })
+        });
+        await refreshCsrf();
+      } catch {
+        setProcesses(
+          (prev) => prev.map((p) => p.name === pm2Name ? { ...p, alertsEnabled: currentlyEnabled } : p)
+        );
+      }
+    }, [csrfToken, refreshCsrf]);
+    return /* @__PURE__ */ import_react15.default.createElement("div", { className: "app-shell" }, /* @__PURE__ */ import_react15.default.createElement(UpdateBanner, null), /* @__PURE__ */ import_react15.default.createElement(
       ProcessList,
       {
         processes,
         selectedProcessId,
         status: processListStatus,
         onSelect: setSelectedProcessId,
-        onRefresh: loadProcesses
+        onOpenSettings: () => setSettingsOpen(true),
+        onToggleAlert
       }
-    ), /* @__PURE__ */ import_react12.default.createElement("main", { className: "content" }, /* @__PURE__ */ import_react12.default.createElement(
+    ), /* @__PURE__ */ import_react15.default.createElement("main", { className: "content" }, /* @__PURE__ */ import_react15.default.createElement(
       HeroCard,
       {
         selectedProcess,
@@ -32458,7 +32904,7 @@
         csrfToken,
         onCsrfRefresh: refreshCsrf
       }
-    ), selectedProcessId != null ? /* @__PURE__ */ import_react12.default.createElement(import_react12.default.Fragment, null, /* @__PURE__ */ import_react12.default.createElement(
+    ), selectedProcessId != null ? /* @__PURE__ */ import_react15.default.createElement(import_react15.default.Fragment, null, /* @__PURE__ */ import_react15.default.createElement(
       MonitoringNotice,
       {
         isMonitored: isSelectedMonitored,
@@ -32467,7 +32913,7 @@
         metricsRetentionMs,
         logsRetentionMs
       }
-    ), /* @__PURE__ */ import_react12.default.createElement(StatsGrid, { details, error, metricsHistory, isMonitored: isSelectedMonitored }), /* @__PURE__ */ import_react12.default.createElement(
+    ), /* @__PURE__ */ import_react15.default.createElement(StatsGrid, { details, error, metricsHistory, isMonitored: isSelectedMonitored }), /* @__PURE__ */ import_react15.default.createElement(
       LogStream,
       {
         details,
@@ -32477,11 +32923,19 @@
         unreadCount: unreadLogCount,
         onScrollToBottom: scrollToLogBottom
       }
-    )) : /* @__PURE__ */ import_react12.default.createElement("div", { className: "welcome-state" }, /* @__PURE__ */ import_react12.default.createElement("div", { className: "welcome-card" }, /* @__PURE__ */ import_react12.default.createElement("p", { className: "eyebrow" }, "Getting started"), /* @__PURE__ */ import_react12.default.createElement("h2", null, "No process selected"), /* @__PURE__ */ import_react12.default.createElement("p", { className: "subtle" }, "Select a PM2 process from the sidebar to view runtime metrics and logs."), /* @__PURE__ */ import_react12.default.createElement("div", { className: "welcome-hints" }, /* @__PURE__ */ import_react12.default.createElement("p", { className: "welcome-hints-title" }, "Enable monitoring on a process to unlock:"), /* @__PURE__ */ import_react12.default.createElement("ul", { className: "welcome-hints-list" }, /* @__PURE__ */ import_react12.default.createElement("li", null, "CPU and memory history sampled every 20 s, stored for 24 hours"), /* @__PURE__ */ import_react12.default.createElement("li", null, "Log entries stored and searchable for 14 days"), /* @__PURE__ */ import_react12.default.createElement("li", null, "Sparkline trend charts in the metrics panel")), /* @__PURE__ */ import_react12.default.createElement("p", { className: "welcome-hints-note" }, "Without monitoring, you only see live data \u2014 nothing is persisted between page loads."))))), /* @__PURE__ */ import_react12.default.createElement(Footer, { version: appVersion }));
+    )) : /* @__PURE__ */ import_react15.default.createElement("div", { className: "welcome-state" }, /* @__PURE__ */ import_react15.default.createElement("div", { className: "welcome-card" }, /* @__PURE__ */ import_react15.default.createElement("p", { className: "eyebrow" }, "Getting started"), /* @__PURE__ */ import_react15.default.createElement("h2", null, "No process selected"), /* @__PURE__ */ import_react15.default.createElement("p", { className: "subtle" }, "Select a PM2 process from the sidebar to view runtime metrics and logs."), /* @__PURE__ */ import_react15.default.createElement("div", { className: "welcome-hints" }, /* @__PURE__ */ import_react15.default.createElement("p", { className: "welcome-hints-title" }, "Enable monitoring on a process to unlock:"), /* @__PURE__ */ import_react15.default.createElement("ul", { className: "welcome-hints-list" }, /* @__PURE__ */ import_react15.default.createElement("li", null, "CPU and memory history sampled every 20 s, stored for 24 hours"), /* @__PURE__ */ import_react15.default.createElement("li", null, "Log entries stored and searchable for 14 days"), /* @__PURE__ */ import_react15.default.createElement("li", null, "Sparkline trend charts in the metrics panel")), /* @__PURE__ */ import_react15.default.createElement("p", { className: "welcome-hints-note" }, "Without monitoring, you only see live data - nothing is persisted between page loads."))))), /* @__PURE__ */ import_react15.default.createElement(Footer, { version: appVersion }), settingsOpen && /* @__PURE__ */ import_react15.default.createElement(
+      Settings,
+      {
+        onClose: () => setSettingsOpen(false),
+        csrfToken,
+        onCsrfRefresh: refreshCsrf,
+        appConfig
+      }
+    ));
   }
 
   // src/main.jsx
-  (0, import_client.createRoot)(document.getElementById("root")).render(/* @__PURE__ */ import_react13.default.createElement(App, null));
+  (0, import_client.createRoot)(document.getElementById("root")).render(/* @__PURE__ */ import_react16.default.createElement(App, null));
 })();
 /*! Bundled license information:
 

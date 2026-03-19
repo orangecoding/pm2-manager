@@ -12,6 +12,7 @@ import LogStream from "./LogStream.jsx";
 import MonitoringNotice from "./MonitoringNotice.jsx";
 import UpdateBanner from "./UpdateBanner.jsx";
 import Footer from "./Footer.jsx";
+import Settings from "./Settings.jsx";
 
 /**
  * Convert DB log entries (newest-first) to flat display lines (oldest-first).
@@ -56,6 +57,8 @@ export default function App() {
     const [unreadLogCount, setUnreadLogCount] = useState(0);
     const [metricsRetentionMs, setMetricsRetentionMs] = useState(86_400_000);
     const [logsRetentionMs, setLogsRetentionMs] = useState(14 * 24 * 60 * 60 * 1000);
+    const [settingsOpen, setSettingsOpen] = useState(false);
+    const [appConfig, setAppConfig] = useState(null);
     const logRef = useRef(null);
     const autoStickRef = useRef(true);
     const prevLiveLinesLengthRef = useRef(0);
@@ -85,6 +88,7 @@ export default function App() {
                 if (payload.version) setAppVersion(payload.version);
                 if (payload.metricsRetentionMs) setMetricsRetentionMs(payload.metricsRetentionMs);
                 if (payload.logsRetentionMs) setLogsRetentionMs(payload.logsRetentionMs);
+                if (payload.config) setAppConfig(payload.config);
             })
             .then(loadProcesses)
             .catch((sessionError) => setError(sessionError.message));
@@ -349,6 +353,33 @@ export default function App() {
         }
     }, [csrfToken, refreshCsrf]);
 
+    /**
+     * Toggle alert notifications for a monitored process.
+     * Applies an optimistic local update, rolls back on failure.
+     *
+     * @param {string} pm2Name - The PM2 process name.
+     * @param {boolean} currentlyEnabled - Current alerts_enabled state.
+     */
+    const onToggleAlert = useCallback(async (pm2Name, currentlyEnabled) => {
+        if (!csrfToken) return;
+        setProcesses((prev) =>
+            prev.map((p) => (p.name === pm2Name ? {...p, alertsEnabled: !currentlyEnabled} : p))
+        );
+        try {
+            await fetchJson('/api/notification-prefs', {
+                method: 'POST',
+                headers: {'X-CSRF-Token': csrfToken, 'Content-Type': 'application/json'},
+                body: JSON.stringify({pm2Name, alertsEnabled: !currentlyEnabled}),
+            });
+            await refreshCsrf();
+        } catch {
+            // Roll back optimistic update.
+            setProcesses((prev) =>
+                prev.map((p) => (p.name === pm2Name ? {...p, alertsEnabled: currentlyEnabled} : p))
+            );
+        }
+    }, [csrfToken, refreshCsrf]);
+
     return (
         <div className="app-shell">
             <UpdateBanner />
@@ -357,7 +388,8 @@ export default function App() {
                 selectedProcessId={selectedProcessId}
                 status={processListStatus}
                 onSelect={setSelectedProcessId}
-                onRefresh={loadProcesses}
+                onOpenSettings={() => setSettingsOpen(true)}
+                onToggleAlert={onToggleAlert}
             />
             <main className="content">
                 <HeroCard
@@ -414,6 +446,14 @@ export default function App() {
                 )}
             </main>
             <Footer version={appVersion} />
+            {settingsOpen && (
+                <Settings
+                    onClose={() => setSettingsOpen(false)}
+                    csrfToken={csrfToken}
+                    onCsrfRefresh={refreshCsrf}
+                    appConfig={appConfig}
+                />
+            )}
         </div>
     );
 }
