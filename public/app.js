@@ -32209,7 +32209,7 @@
   // src/components/Footer.jsx
   var import_react11 = __toESM(require_react(), 1);
   function Footer({ version }) {
-    return /* @__PURE__ */ import_react11.default.createElement("footer", { className: "app-footer" }, /* @__PURE__ */ import_react11.default.createElement("span", { className: "app-footer-version" }, "pm2-manager", version && /* @__PURE__ */ import_react11.default.createElement(import_react11.default.Fragment, null, " ", /* @__PURE__ */ import_react11.default.createElement("strong", null, "v", version))), /* @__PURE__ */ import_react11.default.createElement("span", { className: "app-footer-credit" }, "Made with ", /* @__PURE__ */ import_react11.default.createElement("span", { className: "app-footer-heart" }, "\u2764\uFE0F"), " by", " ", /* @__PURE__ */ import_react11.default.createElement("a", { href: "https://github.com/orangecoding", target: "_blank", rel: "noopener noreferrer" }, "Christian Kellner")));
+    return /* @__PURE__ */ import_react11.default.createElement("footer", { className: "app-footer" }, /* @__PURE__ */ import_react11.default.createElement("span", { className: "app-footer-version" }, "pm2-hawkeye", version && /* @__PURE__ */ import_react11.default.createElement(import_react11.default.Fragment, null, " ", /* @__PURE__ */ import_react11.default.createElement("strong", null, "v", version))), /* @__PURE__ */ import_react11.default.createElement("span", { className: "app-footer-credit" }, "Made with ", /* @__PURE__ */ import_react11.default.createElement("span", { className: "app-footer-heart" }, "\u2764\uFE0F"), " by", " ", /* @__PURE__ */ import_react11.default.createElement("a", { href: "https://github.com/orangecoding", target: "_blank", rel: "noopener noreferrer" }, "Christian Kellner")));
   }
 
   // src/components/Settings.jsx
@@ -32250,7 +32250,7 @@
           body: JSON.stringify({ settings })
         });
         await onCsrfRefresh();
-        setNotice({ type: "success", text: "Saved - please restart pm2-manager for changes to take effect." });
+        setNotice({ type: "success", text: "Saved - please restart pm2-hawkeye for changes to take effect." });
         setNewPassword("");
       } catch (err) {
         setNotice({ type: "error", text: err.message ?? "Save failed." });
@@ -32262,7 +32262,7 @@
       return /* @__PURE__ */ import_react12.default.createElement("div", null, /* @__PURE__ */ import_react12.default.createElement("h2", { className: "settings-page-title" }, "General Settings"), /* @__PURE__ */ import_react12.default.createElement("p", { className: "settings-hint" }, "Loading..."));
     }
     const keys2 = fields ? Object.keys(fields) : [];
-    return /* @__PURE__ */ import_react12.default.createElement("form", { onSubmit: handleSave }, /* @__PURE__ */ import_react12.default.createElement("h2", { className: "settings-page-title" }, "General Settings"), /* @__PURE__ */ import_react12.default.createElement("div", { className: "settings-notice" }, "Changes are written to your .env file. A restart of pm2-manager is required for them to take effect."), notice && /* @__PURE__ */ import_react12.default.createElement("div", { className: `settings-notice settings-notice--${notice.type}` }, notice.text), keys2.length === 0 && /* @__PURE__ */ import_react12.default.createElement("p", { className: "settings-hint" }, "No .env file found. Fields will be created when you save."), keys2.map((key) => /* @__PURE__ */ import_react12.default.createElement("div", { className: "settings-field", key }, /* @__PURE__ */ import_react12.default.createElement("label", { htmlFor: `gs-${key}` }, key), /* @__PURE__ */ import_react12.default.createElement(
+    return /* @__PURE__ */ import_react12.default.createElement("form", { onSubmit: handleSave }, /* @__PURE__ */ import_react12.default.createElement("h2", { className: "settings-page-title" }, "General Settings"), /* @__PURE__ */ import_react12.default.createElement("div", { className: "settings-notice" }, "Changes are written to your .env file. A restart of pm2-hawkeye is required for them to take effect."), notice && /* @__PURE__ */ import_react12.default.createElement("div", { className: `settings-notice settings-notice--${notice.type}` }, notice.text), keys2.length === 0 && /* @__PURE__ */ import_react12.default.createElement("p", { className: "settings-hint" }, "No .env file found. Fields will be created when you save."), keys2.map((key) => /* @__PURE__ */ import_react12.default.createElement("div", { className: "settings-field", key }, /* @__PURE__ */ import_react12.default.createElement("label", { htmlFor: `gs-${key}` }, key), /* @__PURE__ */ import_react12.default.createElement(
       "input",
       {
         id: `gs-${key}`,
@@ -32293,20 +32293,36 @@
     { name: "{log_message}", description: "The full raw log line text" },
     { name: "{process_name}", description: "The PM2 process name" }
   ];
-  function previewSubstitute(template) {
-    return template.replace(/\{logLevel\}/g, "error").replace(/\{log_message\}/g, "Error: 42 is not a number.").replace(/\{process_name\}/g, "my-app");
+  var PREVIEW_PAYLOAD = {
+    log_level: "error",
+    log: "Error: 42 is not a number.",
+    process_name: "my-app"
+  };
+  function previewSubstituteRaw(template) {
+    return template.replace(/\{logLevel\}/g, PREVIEW_PAYLOAD.log_level).replace(/\{log_message\}/g, PREVIEW_PAYLOAD.log).replace(/\{process_name\}/g, PREVIEW_PAYLOAD.process_name);
+  }
+  function previewSubstituteJsonEncoded(template) {
+    return template.replace(/\{logLevel\}/g, JSON.stringify(PREVIEW_PAYLOAD.log_level)).replace(/\{log_message\}/g, JSON.stringify(PREVIEW_PAYLOAD.log)).replace(/\{process_name\}/g, JSON.stringify(PREVIEW_PAYLOAD.process_name));
+  }
+  function resolveBodyValue(template) {
+    const raw = previewSubstituteRaw(template);
+    try {
+      return JSON.parse(raw);
+    } catch {
+      const encoded = previewSubstituteJsonEncoded(template);
+      try {
+        return JSON.parse(encoded);
+      } catch {
+        return raw;
+      }
+    }
   }
   function buildCurlPreview(url, headers, bodyParams) {
-    const headerLines = headers.filter((h) => h.key && h.key.trim()).map((h) => `  -H "${h.key.trim()}: ${previewSubstitute(h.value ?? "")}" \\`).join("\n");
+    const headerLines = headers.filter((h) => h.key && h.key.trim()).map((h) => `  -H "${h.key.trim()}: ${previewSubstituteRaw(h.value ?? "")}" \\`).join("\n");
     const bodyObj = {};
     for (const p of bodyParams) {
       if (p.key && p.key.trim()) {
-        const substituted = previewSubstitute(p.value ?? "");
-        try {
-          bodyObj[p.key.trim()] = JSON.parse(substituted);
-        } catch {
-          bodyObj[p.key.trim()] = substituted;
-        }
+        bodyObj[p.key.trim()] = resolveBodyValue(p.value ?? "");
       }
     }
     const bodyStr = JSON.stringify(bodyObj, null, 2);
@@ -32994,4 +33010,3 @@ react/cjs/react-jsx-runtime.development.js:
    * LICENSE file in the root directory of this source tree.
    *)
 */
-//# sourceMappingURL=app.js.map

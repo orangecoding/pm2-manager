@@ -5,7 +5,8 @@
   "type": "module",
   "main": "lib/transport/server.js",
   "scripts": {
-    "build": "esbuild src/main.jsx --bundle --format=iife --target=es2020 --outfile=public/app.js && esbuild src/login.jsx --bundle --format=iife --target=es2020 --outfile=public/login.js && lessc public/styles.less public/styles.css",
+    "copy:assets": "cp media/favicon/* public/",
+    "build": "esbuild src/main.jsx --bundle --format=iife --target=es2020 --outfile=public/app.js && esbuild src/login.jsx --bundle --format=iife --target=es2020 --outfile=public/login.js && lessc public/styles.less public/styles.css && npm run copy:assets",
     "start": "npm run build && node lib/transport/server.js",
     "dev": "node esbuild.dev.mjs",
     "format": "prettier --write \"**/*.js\"",
