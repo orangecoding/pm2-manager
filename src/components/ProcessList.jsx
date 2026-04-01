@@ -12,7 +12,9 @@ import {formatBytes, getStatusTone} from '../services/format.js';
  * Each process row shows its status, CPU/memory, and a read-only monitoring
  * tag.  Rows are rendered as divs (not buttons) so nested interactive elements
  * are valid HTML.  Monitored processes are visually distinguished; orphaned
- * ones (monitored but absent from PM2) receive a warning tint.
+ * ones (monitored but absent from PM2) receive a warning tint.  Processes that
+ * were deployed via hawkeye show a "Deployed" badge, a Redeploy button, and an
+ * Edit button.
  *
  * @param {{
  *   processes: object[],
@@ -20,10 +22,13 @@ import {formatBytes, getStatusTone} from '../services/format.js';
  *   status: string,
  *   onSelect: (id: string) => void,
  *   onOpenSettings: () => void,
+ *   onOpenDeploy: () => void,
  *   onToggleAlert: (pm2Name: string, currentlyEnabled: boolean) => void,
+ *   deployments: object[],
+ *   onEditDeployment: (pm2Name: string) => void,
  * }} props
  */
-export default function ProcessList({processes, selectedProcessId, status, onSelect, onOpenSettings, onToggleAlert}) {
+export default function ProcessList({processes, selectedProcessId, status, onSelect, onOpenSettings, onOpenDeploy, onToggleAlert, deployments = [], onEditDeployment}) {
     return (
         <aside className="sidebar section-shell">
             <div className="brand-card">
@@ -33,6 +38,7 @@ export default function ProcessList({processes, selectedProcessId, status, onSel
             </div>
             <div className="sidebar-toolbar">
                 <button className="ghost-button" type="button" onClick={onOpenSettings}>Settings</button>
+                <button className="ghost-button" type="button" onClick={onOpenDeploy}>Deploy</button>
                 <div className="sidebar-status">{status}</div>
             </div>
             <div className="process-list" role="listbox" aria-label="PM2 processes">
@@ -76,12 +82,26 @@ export default function ProcessList({processes, selectedProcessId, status, onSel
                                     <span className={`status-indicator ${getStatusTone(proc.status)}`}/>
                                 </span>
                             </div>
-                            {proc.isMonitored && (
+                            {(proc.isMonitored || deployments.some((d) => d.pm2_name === proc.name)) && (
                                 <div className="monitor-tag-row">
-                                    <span className="monitor-tag" title="Metrics and logs are being stored">
-                                        <span className="monitor-tag-dot"/>
-                                        Monitored
-                                    </span>
+                                    {proc.isMonitored && (
+                                        <span className="monitor-tag" title="Metrics and logs are being stored">
+                                            <span className="monitor-tag-dot"/>
+                                            Monitored
+                                        </span>
+                                    )}
+                                    {deployments.some((d) => d.pm2_name === proc.name) && (
+                                        <button
+                                            className="edit-deploy-btn"
+                                            title="Edit configuration or trigger a redeploy"
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                onEditDeployment(proc.name);
+                                            }}
+                                        >
+                                            Edit / Redeploy
+                                        </button>
+                                    )}
                                 </div>
                             )}
                             <span className="process-status">

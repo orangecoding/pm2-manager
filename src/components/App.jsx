@@ -13,6 +13,7 @@ import MonitoringNotice from "./MonitoringNotice.jsx";
 import UpdateBanner from "./UpdateBanner.jsx";
 import Footer from "./Footer.jsx";
 import Settings from "./Settings.jsx";
+import DeployModal from "./DeployModal.jsx";
 
 /**
  * Convert DB log entries (newest-first) to flat display lines (oldest-first).
@@ -59,6 +60,14 @@ export default function App() {
     const [logsRetentionMs, setLogsRetentionMs] = useState(14 * 24 * 60 * 60 * 1000);
     const [settingsOpen, setSettingsOpen] = useState(false);
     const [appConfig, setAppConfig] = useState(null);
+    const [deployOpen, setDeployOpen] = useState(false);
+    const [deployments, setDeployments] = useState([]);
+    const [activeDeploymentId, setActiveDeploymentId] = useState(null);
+    const [deployProgressLines, setDeployProgressLines] = useState([]);
+    const [deployProgressStage, setDeployProgressStage] = useState(null);
+    const [deployProgressStatus, setDeployProgressStatus] = useState(null);
+    /** @type {[object|null, React.Dispatch<object|null>]} deployment record being edited, or null */
+    const [editingDeployment, setEditingDeployment] = useState(null);
     const logRef = useRef(null);
     const autoStickRef = useRef(true);
     const prevLiveLinesLengthRef = useRef(0);
@@ -81,6 +90,12 @@ export default function App() {
         }
     }, []);
 
+    const loadDeployments = useCallback(() => {
+        fetchJson('/api/deployments')
+            .then((payload) => setDeployments(payload.deployments || []))
+            .catch(() => {});
+    }, []);
+
     useEffect(() => {
         fetchJson("/api/auth/session")
             .then((payload) => {
@@ -91,8 +106,9 @@ export default function App() {
                 if (payload.config) setAppConfig(payload.config);
             })
             .then(loadProcesses)
+            .then(loadDeployments)
             .catch((sessionError) => setError(sessionError.message));
-    }, [loadProcesses]);
+    }, [loadProcesses, loadDeployments]);
 
     // Single unified WebSocket connection for all real-time data.
     useEffect(() => {
@@ -123,6 +139,14 @@ export default function App() {
                     setLiveLines((prev) => [...prev, {text: data.text}].slice(-800));
                 } else if (type === "error") {
                     setError(data.error);
+                } else if (type === "deploy_progress") {
+                    setDeployProgressLines((prev) => [...prev, { stage: data.stage, line: data.line, status: data.status }]);
+                    setDeployProgressStage(data.stage);
+                    setDeployProgressStatus(data.status);
+                    // Refresh deployments list when a deploy finishes or fails.
+                    if (data.stage === 'done' || data.stage === 'error') {
+                        loadDeployments();
+                    }
                 }
                 // heartbeat and connected are intentionally ignored
             } catch {
@@ -268,7 +292,76 @@ export default function App() {
     const refreshCsrf = useCallback(async () => {
         const session = await fetchJson("/api/auth/session");
         setCsrfToken(session.csrfToken);
+        return session.csrfToken;
     }, []);
+
+    /**
+     * Called by DeployModal when the server has accepted a deployment request.
+     * Switches the modal to the progress view for the given deployment ID.
+     *
+     * @param {string} deploymentId
+     */
+    const onDeployStarted = useCallback((deploymentId) => {
+        setDeployProgressLines([]);
+        setDeployProgressStage('clone');
+        setDeployProgressStatus('running');
+        setActiveDeploymentId(deploymentId);
+        // The deploy POST consumed the CSRF token — refresh it so subsequent
+        // mutations (restart, stop, etc.) continue to work.
+        refreshCsrf();
+    }, [refreshCsrf]);
+
+    /**
+     * Called by DeployModal when the user clicks "Redeploy" while in edit mode.
+     * The modal has already saved the updated config (PUT); this function refreshes
+     * the CSRF token, switches the modal to the progress view, and fires the
+     * redeploy POST request.
+     *
+     * @param {string} deploymentId - UUID of the deployment record.
+     */
+    const onSaveAndRedeploy = useCallback(async (deploymentId) => {
+        // PUT already consumed the CSRF token -- get a fresh one before the POST.
+        const newToken = await refreshCsrf();
+        setEditingDeployment(null);
+        setDeployProgressLines([]);
+        setDeployProgressStage('clone');
+        setDeployProgressStatus('running');
+        setActiveDeploymentId(deploymentId);
+        try {
+            await fetchJson(`/api/deployments/${deploymentId}/redeploy`, {
+                method: 'POST',
+                headers: { 'X-CSRF-Token': newToken },
+            });
+            await refreshCsrf();
+        } catch (err) {
+            setDeployProgressLines((prev) => [...prev, { stage: 'error', line: err.message, status: 'error' }]);
+            setDeployProgressStage('error');
+            setDeployProgressStatus('error');
+        }
+    }, [refreshCsrf]);
+
+    /**
+     * Open the deploy modal in edit mode for the given PM2 process name.
+     *
+     * @param {string} pm2Name
+     */
+    const onEditDeployment = useCallback((pm2Name) => {
+        const dep = deployments.find((d) => d.pm2_name === pm2Name);
+        if (!dep) return;
+        setEditingDeployment(dep);
+        setDeployOpen(true);
+    }, [deployments]);
+
+    /**
+     * Called after a deployment record has been successfully edited.
+     * Refreshes the CSRF token, reloads the deployments list, and closes the modal.
+     */
+    const onEditSaved = useCallback(async () => {
+        await refreshCsrf();
+        loadDeployments();
+        setDeployOpen(false);
+        setEditingDeployment(null);
+    }, [refreshCsrf, loadDeployments]);
 
     const onRestart = async () => {
         if (selectedProcessId === null || selectedProcessId === undefined || !csrfToken) {
@@ -389,7 +482,10 @@ export default function App() {
                 status={processListStatus}
                 onSelect={setSelectedProcessId}
                 onOpenSettings={() => setSettingsOpen(true)}
+                onOpenDeploy={() => { setActiveDeploymentId(null); setDeployOpen(true); }}
                 onToggleAlert={onToggleAlert}
+                deployments={deployments}
+                onEditDeployment={onEditDeployment}
             />
             <main className="content">
                 <HeroCard
@@ -452,6 +548,20 @@ export default function App() {
                     csrfToken={csrfToken}
                     onCsrfRefresh={refreshCsrf}
                     appConfig={appConfig}
+                />
+            )}
+            {deployOpen && (
+                <DeployModal
+                    csrfToken={csrfToken}
+                    onClose={() => { setDeployOpen(false); setActiveDeploymentId(null); setEditingDeployment(null); }}
+                    onDeployStarted={onDeployStarted}
+                    deployProgressLines={deployProgressLines}
+                    deployProgressStage={deployProgressStage}
+                    deployProgressStatus={deployProgressStatus}
+                    activeDeploymentId={activeDeploymentId}
+                    editingDeployment={editingDeployment}
+                    onEditSaved={onEditSaved}
+                    onSaveAndRedeploy={onSaveAndRedeploy}
                 />
             )}
         </div>

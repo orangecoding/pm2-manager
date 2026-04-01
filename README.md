@@ -336,6 +336,79 @@ Every monitored process shows a megaphone icon (📢) in the sidebar. Click it t
 
 ---
 
+## Deploy
+
+PM2-Hawkeye can clone, install, build, and register new Node.js applications directly from the UI -- no manual SSH required.
+
+### How it works
+
+Click **Deploy** in the sidebar toolbar to open the deploy modal. Fill in the form and hit **Deploy**. PM2-Hawkeye will:
+
+1. Run an optional pre-setup shell script (e.g. install system dependencies)
+2. `git clone` the repository into `DEPLOY_BASE_DIR/<app-name>` (default: `./apps/<app-name>`)
+3. Run the install command (`npm install`, `yarn`, or `pnpm install`)
+4. Run an optional build command (e.g. `npm run build`)
+5. Run an optional post-setup shell script (e.g. run database migrations)
+6. Register and start the process with PM2
+
+A real-time progress log streams each step in the browser.
+
+### Deploy form fields
+
+**Repository** (required)
+
+| Field | Description |
+|---|---|
+| App name | Unique PM2 process name. Alphanumeric, dashes, and underscores only. |
+| Repo URL | HTTPS URL of a public GitHub or GitLab repository. |
+| Branch | Git branch to clone and deploy from. Defaults to `main`. |
+
+**Runtime** (required)
+
+| Field | Description |
+|---|---|
+| Start script | Entry point relative to the repo root, e.g. `src/server.js`. |
+| Interpreter | Node.js interpreter path. Leave as `node` for the system default. |
+| Exec mode | `fork` (single process) or `cluster` (multiple workers). |
+| Instances | Number of cluster workers. Set `-1` to use all CPU cores. |
+
+**Setup** (optional)
+
+| Field | Description |
+|---|---|
+| Install command | Package manager command. Select `skip` to skip dependency installation entirely. |
+| Build command | Optional build step, e.g. `npm run build`. |
+| Pre-setup script | Shell script that runs in `DEPLOY_BASE_DIR` before cloning. Use it to check requirements or install OS packages. |
+| Post-setup script | Shell script that runs in the cloned repo directory after the build. Use it for migrations, file permission fixes, etc. |
+
+**Environment** (optional)
+
+| Field | Description |
+|---|---|
+| Env file | Path to a `.env` file inside the repo to load at start time, e.g. `.env.production`. |
+| Environment variables | Key/value pairs passed directly to the process. These override values from the env file. |
+
+Additional collapsible sections cover restart behaviour, memory limits, log file paths, file watching, and advanced PM2 options.
+
+### Redeploying and editing
+
+Once a process has been deployed through PM2-Hawkeye, an **Edit / Redeploy** button appears next to it in the sidebar. Clicking it opens the same form pre-filled with the saved configuration.
+
+- **Save changes** -- persists the updated configuration without restarting the process.
+- **Save & Redeploy** -- saves the configuration and immediately triggers a full redeploy: `git pull --rebase`, reinstall, rebuild, and PM2 restart.
+
+### Configuration
+
+Set `DEPLOY_BASE_DIR` in your `.env` to control where apps are cloned:
+
+```
+DEPLOY_BASE_DIR=./apps
+```
+
+The directory is created automatically on first deploy. Use an absolute path to place apps outside the project directory.
+
+---
+
 ## Security
 
 - **CSRF tokens** - one-time-use tokens rotated after every state-changing request

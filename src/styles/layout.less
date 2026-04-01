@@ -125,7 +125,9 @@
 @media (max-width: 70rem) {
   .app-shell {
     grid-template-columns: 1fr;
-    grid-template-rows: auto 1fr auto;
+    grid-template-rows: auto auto auto;
+    height: auto;
+    min-height: 100vh;
   }
 
   .sidebar {
@@ -136,6 +138,16 @@
 
   .content {
     grid-row: 2;
+    height: auto;
+    overflow-y: visible;
+  }
+
+  // On mobile the panel no longer tries to fill the remaining grid row --
+  // content stacks naturally and the browser viewport scrolls instead.
+  .panel {
+    flex: none;
+    overflow: visible;
+    min-height: 0;
   }
 
   .app-footer {

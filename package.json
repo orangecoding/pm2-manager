@@ -1,6 +1,6 @@
 {
   "name": "pm2-hawkeye",
-  "version": "2.1.1",
+  "version": "3.0.0",
   "description": "Modern web dashboard for PM2 processes, metrics, and log files",
   "type": "module",
   "main": "lib/transport/server.js",
@@ -42,7 +42,7 @@
     "react": "^19.2.4",
     "react-dom": "^19.2.4",
     "react-markdown": "^10.1.0",
-    "ws": "^8.19.0"
+    "ws": "^8.20.0"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
@@ -50,7 +50,7 @@
     "chalk": "^5.6.2",
     "concurrently": "^9.2.1",
     "esbuild": "^0.27.4",
-    "eslint": "^10.0.3",
+    "eslint": "^10.1.0",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-react": "^7.37.5",
     "globals": "^17.4.0",

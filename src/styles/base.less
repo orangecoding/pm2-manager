@@ -10,6 +10,16 @@ html, body {
   overflow: hidden;
 }
 
+// On narrow viewports the layout switches to a single-column stack that the
+// browser viewport scrolls natively. Override the desktop overflow lock so the
+// page is actually scrollable.
+@media (max-width: 70rem) {
+  html, body {
+    height: auto;
+    overflow: auto;
+  }
+}
+
 body {
   font-family: var(--font-ui);
   color: var(--text);
