@@ -605,6 +605,7 @@ export default function App() {
             {deployOpen && (
                 <DeployModal
                     csrfToken={csrfToken}
+                    onCsrfRefresh={refreshCsrf}
                     onClose={() => { setDeployOpen(false); setActiveDeploymentId(null); setEditingDeployment(null); }}
                     onDeployStarted={onDeployStarted}
                     deployProgressLines={deployProgressLines}

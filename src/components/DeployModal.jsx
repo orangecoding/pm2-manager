@@ -179,13 +179,14 @@ function pm2OptsFromStored(opts) {
  *
  * @param {{
  *   csrfToken: string,
+ *   onCsrfRefresh: () => Promise<string>,
  *   onDeployStarted: (id: string) => void,
  *   editingDeployment?: object | null,
  *   onEditSaved?: () => Promise<void>,
  *   onSaveAndRedeploy?: (deploymentId: string) => Promise<void>,
  * }} props
  */
-function DeployForm({ csrfToken, onDeployStarted, editingDeployment, onEditSaved, onSaveAndRedeploy }) {
+function DeployForm({ csrfToken, onCsrfRefresh, onDeployStarted, editingDeployment, onEditSaved, onSaveAndRedeploy }) {
   const isEdit = Boolean(editingDeployment);
 
   const [appName, setAppName] = useState(() => editingDeployment?.pm2_name ?? '');
@@ -262,10 +263,13 @@ function DeployForm({ csrfToken, onDeployStarted, editingDeployment, onEditSaved
       setSubmitting(true);
 
       try {
+        // Always fetch a fresh CSRF token immediately before submitting to avoid
+        // stale-token mismatches caused by intervening mutations on the same page.
+        const freshToken = await onCsrfRefresh();
         if (isEdit) {
           await fetchJson(`/api/deployments/${editingDeployment.id}`, {
             method: 'PUT',
-            headers: { 'X-CSRF-Token': csrfToken, 'Content-Type': 'application/json' },
+            headers: { 'X-CSRF-Token': freshToken, 'Content-Type': 'application/json' },
             body: JSON.stringify(buildPayload()),
           });
           if (onEditSaved) await onEditSaved();
@@ -273,7 +277,7 @@ function DeployForm({ csrfToken, onDeployStarted, editingDeployment, onEditSaved
           const payload = buildPayload();
           const result = await fetchJson('/api/deployments', {
             method: 'POST',
-            headers: { 'X-CSRF-Token': csrfToken, 'Content-Type': 'application/json' },
+            headers: { 'X-CSRF-Token': freshToken, 'Content-Type': 'application/json' },
             body: JSON.stringify({ appName: appName.trim(), ...payload }),
           });
           onDeployStarted(result.deploymentId);
@@ -283,7 +287,7 @@ function DeployForm({ csrfToken, onDeployStarted, editingDeployment, onEditSaved
         setSubmitting(false);
       }
     },
-    [isEdit, editingDeployment, appName, buildPayload, csrfToken, onDeployStarted, onEditSaved],
+    [isEdit, editingDeployment, appName, buildPayload, onCsrfRefresh, onDeployStarted, onEditSaved],
   );
 
   /**
@@ -294,9 +298,12 @@ function DeployForm({ csrfToken, onDeployStarted, editingDeployment, onEditSaved
     setError('');
     setSubmitting(true);
     try {
+      // Fetch a fresh token before the PUT so the subsequent redeploy POST
+      // in onSaveAndRedeploy can also get a valid token after rotation.
+      const freshToken = await onCsrfRefresh();
       await fetchJson(`/api/deployments/${editingDeployment.id}`, {
         method: 'PUT',
-        headers: { 'X-CSRF-Token': csrfToken, 'Content-Type': 'application/json' },
+        headers: { 'X-CSRF-Token': freshToken, 'Content-Type': 'application/json' },
         body: JSON.stringify(buildPayload()),
       });
       if (onSaveAndRedeploy) await onSaveAndRedeploy(editingDeployment.id);
@@ -304,7 +311,7 @@ function DeployForm({ csrfToken, onDeployStarted, editingDeployment, onEditSaved
       setError(err.message);
       setSubmitting(false);
     }
-  }, [editingDeployment, csrfToken, buildPayload, onSaveAndRedeploy]);
+  }, [editingDeployment, onCsrfRefresh, buildPayload, onSaveAndRedeploy]);
 
   return (
     <>
@@ -832,10 +839,12 @@ function DeployProgress({ lines, currentStage, status, visibleStages, onClose })
  *   editingDeployment?: object | null,
  *   onEditSaved?: () => Promise<void>,
  *   onSaveAndRedeploy?: (deploymentId: string) => Promise<void>,
+ *   onCsrfRefresh: () => Promise<string>,
  * }} props
  */
 export default function DeployModal({
   csrfToken,
+  onCsrfRefresh,
   onClose,
   onDeployStarted,
   deployProgressLines,
@@ -883,6 +892,7 @@ export default function DeployModal({
         ) : (
           <DeployForm
             csrfToken={csrfToken}
+            onCsrfRefresh={onCsrfRefresh}
             onDeployStarted={onDeployStarted}
             editingDeployment={editingDeployment}
             onEditSaved={onEditSaved}
