@@ -378,6 +378,54 @@ export default function App() {
         }
     };
 
+    /**
+     * Delete the selected process from PM2.
+     * When `withDeploy` is true the deployment record and its on-disk directory
+     * are also removed.
+     * Clears the selection afterwards so the UI does not point to a gone process.
+     *
+     * @param {boolean} withDeploy
+     */
+    const onDelete = async (withDeploy = false) => {
+        if (selectedProcessId === null || selectedProcessId === undefined || !csrfToken) {
+            return;
+        }
+        try {
+            const url = `/api/processes/${encodeURIComponent(selectedProcessId)}${withDeploy ? '?deleteDeploy=true' : ''}`;
+            await fetchJson(url, {
+                method: "DELETE",
+                headers: {"X-CSRF-Token": csrfToken},
+            });
+            await refreshCsrf();
+            if (withDeploy) loadDeployments();
+            setSelectedProcessId(null);
+        } catch (deleteError) {
+            setError(deleteError.message);
+        }
+    };
+
+    /**
+     * Remove an orphaned monitoring record from hawkeye.
+     * Orphans are processes that are tracked in hawkeye's DB but no longer exist in PM2.
+     *
+     * @param {string} pm2Name - The PM2 process name of the orphaned record.
+     */
+    const onRemoveOrphan = async (pm2Name) => {
+        if (!csrfToken) return;
+        try {
+            await fetchJson('/api/monitoring', {
+                method: 'POST',
+                headers: {'X-CSRF-Token': csrfToken, 'Content-Type': 'application/json'},
+                body: JSON.stringify({pm2Name, monitored: false}),
+            });
+            await refreshCsrf();
+            // If the orphan was selected, clear the selection.
+            setSelectedProcessId((prev) => (String(prev) === pm2Name ? null : prev));
+        } catch {
+            // Ignore - the WS stream will reflect the updated state shortly.
+        }
+    };
+
     const onLogout = async () => {
         if (csrfToken) {
             await fetchJson("/api/auth/logout", {
@@ -486,6 +534,7 @@ export default function App() {
                 onToggleAlert={onToggleAlert}
                 deployments={deployments}
                 onEditDeployment={onEditDeployment}
+                onRemoveOrphan={onRemoveOrphan}
             />
             <main className="content">
                 <HeroCard
@@ -494,6 +543,9 @@ export default function App() {
                     sseConnected={wsConnected}
                     onLogout={onLogout}
                     onRestart={onRestart}
+                    onDelete={onDelete}
+                    onRemoveOrphan={onRemoveOrphan}
+                    selectedDeployment={deployments.find((d) => d.pm2_name === selectedProcess?.name) ?? null}
                     actions={actions}
                     selectedProcessId={selectedProcessId}
                     csrfToken={csrfToken}

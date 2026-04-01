@@ -26,9 +26,10 @@ import {formatBytes, getStatusTone} from '../services/format.js';
  *   onToggleAlert: (pm2Name: string, currentlyEnabled: boolean) => void,
  *   deployments: object[],
  *   onEditDeployment: (pm2Name: string) => void,
+ *   onRemoveOrphan: (pm2Name: string) => void,
  * }} props
  */
-export default function ProcessList({processes, selectedProcessId, status, onSelect, onOpenSettings, onOpenDeploy, onToggleAlert, deployments = [], onEditDeployment}) {
+export default function ProcessList({processes, selectedProcessId, status, onSelect, onOpenSettings, onOpenDeploy, onToggleAlert, deployments = [], onEditDeployment, onRemoveOrphan}) {
     return (
         <aside className="sidebar section-shell">
             <div className="brand-card">
@@ -106,7 +107,16 @@ export default function ProcessList({processes, selectedProcessId, status, onSel
                             )}
                             <span className="process-status">
                                 {proc.isOrphan
-                                    ? `orphan \u00b7 not in PM2`
+                                    ?   <button
+                                            className="process-item-orphan"
+                                            title="Remove monitoring record for this process"
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                onRemoveOrphan(proc.name);
+                                            }}
+                                        >
+                                            Orphan (Remove)
+                                        </button>
                                     : `${proc.status} \u00b7 ${proc.cpu}% CPU \u00b7 ${formatBytes(proc.memory)}`}
                             </span>
                         </div>

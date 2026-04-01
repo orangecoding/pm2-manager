@@ -83,6 +83,17 @@ describe('deployRunner validators', () => {
       assert.equal(validateRepoUrl('https://evil.com/owner/repo'), false);
     });
 
+    it('accepts SCP-style SSH URLs', () => {
+      assert.equal(validateRepoUrl('git@github.com:owner/repo.git'), true);
+      assert.equal(validateRepoUrl('git@gitlab.com:group/repo.git'), true);
+      assert.equal(validateRepoUrl('git@example.com:owner/repo'), true);
+    });
+
+    it('accepts ssh:// URLs', () => {
+      assert.equal(validateRepoUrl('ssh://git@github.com/owner/repo.git'), true);
+      assert.equal(validateRepoUrl('ssh://git@gitlab.com/owner/repo.git'), true);
+    });
+
     it('rejects non-strings', () => {
       assert.equal(validateRepoUrl(null), false);
       assert.equal(validateRepoUrl(42), false);

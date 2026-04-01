@@ -405,6 +405,14 @@ input:focus-visible {
   font-size: 0.78rem;
   color: var(--muted);
 }
+.process-item-orphan {
+  font-size: 0.78rem;
+  border-radius: 6px;
+  border: none;
+  background: var(--accent);
+  color: black;
+  font-weight: 700;
+}
 .process-item-controls {
   display: flex;
   align-items: center;
@@ -752,6 +760,17 @@ input:focus-visible {
 .btn-cancel:disabled {
   opacity: 0.6;
   cursor: not-allowed;
+}
+.btn-cancel-soft {
+  background: var(--bg-3);
+  color: var(--warning, #f59e0b);
+  border-color: var(--warning, #f59e0b);
+}
+.action-confirm-hint {
+  margin: 0;
+  font-size: 0.78rem;
+  color: var(--muted);
+  line-height: 1.4;
 }
 .log-stream {
   display: flex;

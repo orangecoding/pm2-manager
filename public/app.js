@@ -22126,7 +22126,7 @@
   }
 
   // src/components/ProcessList.jsx
-  function ProcessList({ processes, selectedProcessId, status, onSelect, onOpenSettings, onOpenDeploy, onToggleAlert, deployments = [], onEditDeployment }) {
+  function ProcessList({ processes, selectedProcessId, status, onSelect, onOpenSettings, onOpenDeploy, onToggleAlert, deployments = [], onEditDeployment, onRemoveOrphan }) {
     return /* @__PURE__ */ import_react.default.createElement("aside", { className: "sidebar section-shell" }, /* @__PURE__ */ import_react.default.createElement("div", { className: "brand-card" }, /* @__PURE__ */ import_react.default.createElement("p", { className: "eyebrow" }, "PM2 Inventory"), /* @__PURE__ */ import_react.default.createElement("h1", null, "Command Center"), /* @__PURE__ */ import_react.default.createElement("p", { className: "subtle" }, "Monitor processes, inspect logs, and restart services.")), /* @__PURE__ */ import_react.default.createElement("div", { className: "sidebar-toolbar" }, /* @__PURE__ */ import_react.default.createElement("button", { className: "ghost-button", type: "button", onClick: onOpenSettings }, "Settings"), /* @__PURE__ */ import_react.default.createElement("button", { className: "ghost-button", type: "button", onClick: onOpenDeploy }, "Deploy"), /* @__PURE__ */ import_react.default.createElement("div", { className: "sidebar-status" }, status)), /* @__PURE__ */ import_react.default.createElement("div", { className: "process-list", role: "listbox", "aria-label": "PM2 processes" }, processes.length ? processes.map((proc) => {
       const isSelected = String(proc.id ?? proc.name) === String(selectedProcessId);
       const monitoredClass = proc.isMonitored ? "monitored" : "";
@@ -22172,7 +22172,18 @@
           },
           "Edit / Redeploy"
         )),
-        /* @__PURE__ */ import_react.default.createElement("span", { className: "process-status" }, proc.isOrphan ? `orphan \xB7 not in PM2` : `${proc.status} \xB7 ${proc.cpu}% CPU \xB7 ${formatBytes(proc.memory)}`)
+        /* @__PURE__ */ import_react.default.createElement("span", { className: "process-status" }, proc.isOrphan ? /* @__PURE__ */ import_react.default.createElement(
+          "button",
+          {
+            className: "process-item-orphan",
+            title: "Remove monitoring record for this process",
+            onClick: (e) => {
+              e.stopPropagation();
+              onRemoveOrphan(proc.name);
+            }
+          },
+          "Orphan (Remove)"
+        ) : `${proc.status} \xB7 ${proc.cpu}% CPU \xB7 ${formatBytes(proc.memory)}`)
       );
     }) : /* @__PURE__ */ import_react.default.createElement("div", { className: "empty-card compact" }, /* @__PURE__ */ import_react.default.createElement("p", null, "No PM2 processes found."))));
   }
@@ -22252,8 +22263,10 @@
   }
 
   // src/components/HeroCard.jsx
-  function HeroCard({ selectedProcess, details, sseConnected, onLogout, onRestart, actions, selectedProcessId, csrfToken, onCsrfRefresh }) {
+  function HeroCard({ selectedProcess, details, sseConnected, onLogout, onRestart, onDelete, onRemoveOrphan, actions, selectedProcessId, csrfToken, onCsrfRefresh }) {
     const [confirmingRestart, setConfirmingRestart] = (0, import_react4.useState)(false);
+    const [confirmingDelete, setConfirmingDelete] = (0, import_react4.useState)(false);
+    const [confirmingRemoveOrphan, setConfirmingRemoveOrphan] = (0, import_react4.useState)(false);
     const handleRestartClick = () => {
       setConfirmingRestart(true);
     };
@@ -22264,7 +22277,29 @@
     const handleRestartCancel = () => {
       setConfirmingRestart(false);
     };
-    return /* @__PURE__ */ import_react4.default.createElement("header", { className: "hero-card section-shell" }, /* @__PURE__ */ import_react4.default.createElement("div", { className: "hero-copy" }, /* @__PURE__ */ import_react4.default.createElement("p", { className: "eyebrow" }, "Selected Process"), /* @__PURE__ */ import_react4.default.createElement("h2", null, selectedProcess?.name || "No process selected"), /* @__PURE__ */ import_react4.default.createElement("p", { className: "subtle" }, selectedProcess ? `Status: ${selectedProcess.status} \xB7 PID: ${details?.process?.pid ?? "n/a"} \xB7 Up since: ${details?.process?.uptime ? formatDate(details.process.uptime) : ""}` : "Choose a PM2 process from the sidebar."), /* @__PURE__ */ import_react4.default.createElement("div", { className: "selection-badges" }, selectedProcess ? /* @__PURE__ */ import_react4.default.createElement(import_react4.default.Fragment, null, /* @__PURE__ */ import_react4.default.createElement(Pill, { label: selectedProcess.status || "unknown", tone: getStatusTone(selectedProcess.status) }), /* @__PURE__ */ import_react4.default.createElement(Pill, { label: `${selectedProcess.cpu}% CPU`, tone: "neutral" }), /* @__PURE__ */ import_react4.default.createElement(Pill, { label: formatBytes(selectedProcess.memory), tone: "neutral" })) : /* @__PURE__ */ import_react4.default.createElement(Pill, { label: "Waiting for selection", tone: "muted" }))), /* @__PURE__ */ import_react4.default.createElement("div", { className: "hero-rail" }, /* @__PURE__ */ import_react4.default.createElement("div", { className: "signal-card" }, /* @__PURE__ */ import_react4.default.createElement("span", { className: `signal-dot ${sseConnected ? "connected" : "disconnected"}` }), /* @__PURE__ */ import_react4.default.createElement("div", null, /* @__PURE__ */ import_react4.default.createElement("span", { className: "signal-label" }, "Live stream"), /* @__PURE__ */ import_react4.default.createElement("strong", null, sseConnected ? "Connected" : "Disconnected"))), /* @__PURE__ */ import_react4.default.createElement("div", { className: "hero-actions" }, confirmingRestart ? /* @__PURE__ */ import_react4.default.createElement("div", { className: "action-confirm" }, /* @__PURE__ */ import_react4.default.createElement("span", null, "Restart ", /* @__PURE__ */ import_react4.default.createElement("strong", null, selectedProcess?.name), "?"), /* @__PURE__ */ import_react4.default.createElement("div", { className: "action-confirm-buttons" }, /* @__PURE__ */ import_react4.default.createElement("button", { className: "btn btn-sm btn-confirm", onClick: handleRestartConfirm }, "Yes"), /* @__PURE__ */ import_react4.default.createElement("button", { className: "btn btn-sm btn-cancel", onClick: handleRestartCancel }, "No"))) : /* @__PURE__ */ import_react4.default.createElement("button", { className: "primary-button", type: "button", disabled: !selectedProcess, onClick: handleRestartClick }, "Restart process"), /* @__PURE__ */ import_react4.default.createElement("button", { className: "ghost-button", type: "button", onClick: onLogout }, "Sign out")), /* @__PURE__ */ import_react4.default.createElement(
+    const handleDeleteClick = () => {
+      setConfirmingDelete(true);
+    };
+    const handleDeleteConfirm = async () => {
+      setConfirmingDelete(false);
+      await onDelete();
+    };
+    const handleDeleteCancel = () => {
+      setConfirmingDelete(false);
+    };
+    const handleRemoveOrphanClick = () => {
+      setConfirmingRemoveOrphan(true);
+    };
+    const handleRemoveOrphanConfirm = async () => {
+      setConfirmingRemoveOrphan(false);
+      await onRemoveOrphan(selectedProcess.name);
+    };
+    const handleRemoveOrphanCancel = () => {
+      setConfirmingRemoveOrphan(false);
+    };
+    const isOrphan = selectedProcess?.isOrphan ?? false;
+    const isDeletable = !isOrphan && selectedProcess && ["stopped", "errored", "error", "one-launch-status"].includes(selectedProcess.status);
+    return /* @__PURE__ */ import_react4.default.createElement("header", { className: "hero-card section-shell" }, /* @__PURE__ */ import_react4.default.createElement("div", { className: "hero-copy" }, /* @__PURE__ */ import_react4.default.createElement("p", { className: "eyebrow" }, "Selected Process"), /* @__PURE__ */ import_react4.default.createElement("h2", null, selectedProcess?.name || "No process selected"), /* @__PURE__ */ import_react4.default.createElement("p", { className: "subtle" }, selectedProcess ? `Status: ${selectedProcess.status} \xB7 PID: ${details?.process?.pid ?? "n/a"} \xB7 Up since: ${details?.process?.uptime ? formatDate(details.process.uptime) : ""}` : "Choose a PM2 process from the sidebar."), /* @__PURE__ */ import_react4.default.createElement("div", { className: "selection-badges" }, selectedProcess ? /* @__PURE__ */ import_react4.default.createElement(import_react4.default.Fragment, null, /* @__PURE__ */ import_react4.default.createElement(Pill, { label: selectedProcess.status || "unknown", tone: getStatusTone(selectedProcess.status) }), /* @__PURE__ */ import_react4.default.createElement(Pill, { label: `${selectedProcess.cpu}% CPU`, tone: "neutral" }), /* @__PURE__ */ import_react4.default.createElement(Pill, { label: formatBytes(selectedProcess.memory), tone: "neutral" })) : /* @__PURE__ */ import_react4.default.createElement(Pill, { label: "Waiting for selection", tone: "muted" }))), /* @__PURE__ */ import_react4.default.createElement("div", { className: "hero-rail" }, /* @__PURE__ */ import_react4.default.createElement("div", { className: "signal-card" }, /* @__PURE__ */ import_react4.default.createElement("span", { className: `signal-dot ${sseConnected ? "connected" : "disconnected"}` }), /* @__PURE__ */ import_react4.default.createElement("div", null, /* @__PURE__ */ import_react4.default.createElement("span", { className: "signal-label" }, "Live stream"), /* @__PURE__ */ import_react4.default.createElement("strong", null, sseConnected ? "Connected" : "Disconnected"))), /* @__PURE__ */ import_react4.default.createElement("div", { className: "hero-actions" }, confirmingRestart ? /* @__PURE__ */ import_react4.default.createElement("div", { className: "action-confirm" }, /* @__PURE__ */ import_react4.default.createElement("span", null, "Restart ", /* @__PURE__ */ import_react4.default.createElement("strong", null, selectedProcess?.name), "?"), /* @__PURE__ */ import_react4.default.createElement("div", { className: "action-confirm-buttons" }, /* @__PURE__ */ import_react4.default.createElement("button", { className: "btn btn-sm btn-confirm", onClick: handleRestartConfirm }, "Yes"), /* @__PURE__ */ import_react4.default.createElement("button", { className: "btn btn-sm btn-cancel", onClick: handleRestartCancel }, "No"))) : /* @__PURE__ */ import_react4.default.createElement("button", { className: "primary-button", type: "button", disabled: !selectedProcess, onClick: handleRestartClick }, "Restart process"), isOrphan && (confirmingRemoveOrphan ? /* @__PURE__ */ import_react4.default.createElement("div", { className: "action-confirm" }, /* @__PURE__ */ import_react4.default.createElement("span", null, "Remove ", /* @__PURE__ */ import_react4.default.createElement("strong", null, selectedProcess?.name), " from hawkeye?"), /* @__PURE__ */ import_react4.default.createElement("div", { className: "action-confirm-buttons" }, /* @__PURE__ */ import_react4.default.createElement("button", { className: "btn btn-sm btn-confirm", onClick: handleRemoveOrphanConfirm }, "Yes"), /* @__PURE__ */ import_react4.default.createElement("button", { className: "btn btn-sm btn-cancel", onClick: handleRemoveOrphanCancel }, "No"))) : /* @__PURE__ */ import_react4.default.createElement("button", { className: "ghost-button danger-button", type: "button", onClick: handleRemoveOrphanClick }, "Remove orphan")), isDeletable && (confirmingDelete ? /* @__PURE__ */ import_react4.default.createElement("div", { className: "action-confirm" }, /* @__PURE__ */ import_react4.default.createElement("span", null, "Delete ", /* @__PURE__ */ import_react4.default.createElement("strong", null, selectedProcess?.name), " from PM2?"), /* @__PURE__ */ import_react4.default.createElement("div", { className: "action-confirm-buttons" }, /* @__PURE__ */ import_react4.default.createElement("button", { className: "btn btn-sm btn-confirm", onClick: handleDeleteConfirm }, "Yes"), /* @__PURE__ */ import_react4.default.createElement("button", { className: "btn btn-sm btn-cancel", onClick: handleDeleteCancel }, "No"))) : /* @__PURE__ */ import_react4.default.createElement("button", { className: "ghost-button danger-button", type: "button", onClick: handleDeleteClick }, "Delete from PM2")), /* @__PURE__ */ import_react4.default.createElement("button", { className: "ghost-button", type: "button", onClick: onLogout }, "Sign out")), /* @__PURE__ */ import_react4.default.createElement(
       Actions,
       {
         actions,
@@ -32727,7 +32762,18 @@
     const [repoUrl, setRepoUrl] = (0, import_react15.useState)(() => editingDeployment?.repo_url ?? "");
     const [branch, setBranch] = (0, import_react15.useState)(() => editingDeployment?.branch ?? "main");
     const [startScript, setStartScript] = (0, import_react15.useState)(() => editingDeployment?.start_script ?? "index.js");
-    const [installCmd, setInstallCmd] = (0, import_react15.useState)(() => editingDeployment?.install_cmd ?? "npm install");
+    const [installCmd, setInstallCmd] = (0, import_react15.useState)(() => {
+      const stored = editingDeployment?.install_cmd ?? "npm install";
+      const knownBases = ["npm install", "npm ci", "yarn install", "yarn", "pnpm install", "skip"];
+      const base = knownBases.find((b) => stored === b || stored.startsWith(b + " "));
+      return base ?? stored;
+    });
+    const [installArgs, setInstallArgs] = (0, import_react15.useState)(() => {
+      const stored = editingDeployment?.install_cmd ?? "npm install";
+      const knownBases = ["npm install", "npm ci", "yarn install", "yarn", "pnpm install", "skip"];
+      const base = knownBases.find((b) => stored === b || stored.startsWith(b + " "));
+      return base && stored.length > base.length ? stored.slice(base.length + 1) : "";
+    });
     const [buildCmd, setBuildCmd] = (0, import_react15.useState)(() => editingDeployment?.build_cmd ?? "");
     const [preSetupScript, setPreSetupScript] = (0, import_react15.useState)(() => editingDeployment?.pre_setup_script ?? "");
     const [postSetupScript, setPostSetupScript] = (0, import_react15.useState)(() => editingDeployment?.post_setup_script ?? "");
@@ -32762,14 +32808,14 @@
         repoUrl: repoUrl.trim(),
         branch: branch.trim() || "main",
         startScript: startScript.trim() || "index.js",
-        installCmd,
+        installCmd: installArgs.trim() ? `${installCmd} ${installArgs.trim()}` : installCmd,
         buildCmd: buildCmd.trim(),
         preSetupScript: preSetupScript.trim(),
         postSetupScript: postSetupScript.trim(),
         envVars: envVarsObj,
         pm2Options
       };
-    }, [envVars, pm2Opts, repoUrl, branch, startScript, installCmd, buildCmd, preSetupScript, postSetupScript]);
+    }, [envVars, pm2Opts, repoUrl, branch, startScript, installCmd, installArgs, buildCmd, preSetupScript, postSetupScript]);
     const onSubmit = (0, import_react15.useCallback)(
       async (e) => {
         e.preventDefault();
@@ -32842,13 +32888,13 @@
           }
         )
       ),
-      /* @__PURE__ */ import_react15.default.createElement(Field, { label: "Repo URL", required: true, hint: "HTTPS URL of a GitHub or GitLab repository, e.g. https://github.com/owner/repo. For private repos the server needs an SSH key or credential helper configured." }, /* @__PURE__ */ import_react15.default.createElement(
+      /* @__PURE__ */ import_react15.default.createElement(Field, { label: "Repo URL", required: true, hint: "HTTPS URL (e.g. https://github.com/owner/repo) or SSH URL (e.g. git@github.com:owner/repo.git). For private repos the server needs an SSH key or credential helper configured." }, /* @__PURE__ */ import_react15.default.createElement(
         "input",
         {
           className: "settings-input",
-          type: "url",
+          type: "text",
           required: true,
-          placeholder: "https://github.com/owner/repo",
+          placeholder: "https://github.com/owner/repo or git@github.com:owner/repo.git",
           value: repoUrl,
           onChange: (e) => setRepoUrl(e.target.value)
         }
@@ -32948,6 +32994,16 @@
         /* @__PURE__ */ import_react15.default.createElement("option", { value: "yarn install" }, "yarn install"),
         /* @__PURE__ */ import_react15.default.createElement("option", { value: "pnpm install" }, "pnpm install"),
         /* @__PURE__ */ import_react15.default.createElement("option", { value: "skip" }, "Skip (no install)")
+      )),
+      installCmd !== "skip" && /* @__PURE__ */ import_react15.default.createElement(Field, { label: "Extra install flags", hint: "Additional flags appended to the install command, e.g. --prod or --frozen-lockfile." }, /* @__PURE__ */ import_react15.default.createElement(
+        "input",
+        {
+          className: "settings-input",
+          type: "text",
+          placeholder: "e.g. --prod",
+          value: installArgs,
+          onChange: (e) => setInstallArgs(e.target.value)
+        }
       )),
       /* @__PURE__ */ import_react15.default.createElement(Field, { label: "Build command", hint: "Optional build step after installing, e.g. npm run build or tsc. Leave blank to skip." }, /* @__PURE__ */ import_react15.default.createElement(
         "input",
@@ -33516,6 +33572,34 @@
         setError(restartError.message);
       }
     };
+    const onDelete = async () => {
+      if (selectedProcessId === null || selectedProcessId === void 0 || !csrfToken) {
+        return;
+      }
+      try {
+        await fetchJson(`/api/processes/${encodeURIComponent(selectedProcessId)}`, {
+          method: "DELETE",
+          headers: { "X-CSRF-Token": csrfToken }
+        });
+        await refreshCsrf();
+        setSelectedProcessId(null);
+      } catch (deleteError) {
+        setError(deleteError.message);
+      }
+    };
+    const onRemoveOrphan = async (pm2Name) => {
+      if (!csrfToken) return;
+      try {
+        await fetchJson("/api/monitoring", {
+          method: "POST",
+          headers: { "X-CSRF-Token": csrfToken, "Content-Type": "application/json" },
+          body: JSON.stringify({ pm2Name, monitored: false })
+        });
+        await refreshCsrf();
+        setSelectedProcessId((prev) => String(prev) === pm2Name ? null : prev);
+      } catch {
+      }
+    };
     const onLogout = async () => {
       if (csrfToken) {
         await fetchJson("/api/auth/logout", {
@@ -33591,7 +33675,8 @@
         },
         onToggleAlert,
         deployments,
-        onEditDeployment
+        onEditDeployment,
+        onRemoveOrphan
       }
     ), /* @__PURE__ */ import_react16.default.createElement("main", { className: "content" }, /* @__PURE__ */ import_react16.default.createElement(
       HeroCard,
@@ -33601,6 +33686,8 @@
         sseConnected: wsConnected,
         onLogout,
         onRestart,
+        onDelete,
+        onRemoveOrphan,
         actions,
         selectedProcessId,
         csrfToken,

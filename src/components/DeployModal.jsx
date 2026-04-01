@@ -192,7 +192,19 @@ function DeployForm({ csrfToken, onDeployStarted, editingDeployment, onEditSaved
   const [repoUrl, setRepoUrl] = useState(() => editingDeployment?.repo_url ?? '');
   const [branch, setBranch] = useState(() => editingDeployment?.branch ?? 'main');
   const [startScript, setStartScript] = useState(() => editingDeployment?.start_script ?? 'index.js');
-  const [installCmd, setInstallCmd] = useState(() => editingDeployment?.install_cmd ?? 'npm install');
+  const [installCmd, setInstallCmd] = useState(() => {
+    const stored = editingDeployment?.install_cmd ?? 'npm install';
+    // Split off any extra flags that were previously saved (e.g. "npm install --prod").
+    const knownBases = ['npm install', 'npm ci', 'yarn install', 'yarn', 'pnpm install', 'skip'];
+    const base = knownBases.find((b) => stored === b || stored.startsWith(b + ' '));
+    return base ?? stored;
+  });
+  const [installArgs, setInstallArgs] = useState(() => {
+    const stored = editingDeployment?.install_cmd ?? 'npm install';
+    const knownBases = ['npm install', 'npm ci', 'yarn install', 'yarn', 'pnpm install', 'skip'];
+    const base = knownBases.find((b) => stored === b || stored.startsWith(b + ' '));
+    return base && stored.length > base.length ? stored.slice(base.length + 1) : '';
+  });
   const [buildCmd, setBuildCmd] = useState(() => editingDeployment?.build_cmd ?? '');
   const [preSetupScript, setPreSetupScript] = useState(() => editingDeployment?.pre_setup_script ?? '');
   const [postSetupScript, setPostSetupScript] = useState(() => editingDeployment?.post_setup_script ?? '');
@@ -234,14 +246,14 @@ function DeployForm({ csrfToken, onDeployStarted, editingDeployment, onEditSaved
       repoUrl: repoUrl.trim(),
       branch: branch.trim() || 'main',
       startScript: startScript.trim() || 'index.js',
-      installCmd,
+      installCmd: installArgs.trim() ? `${installCmd} ${installArgs.trim()}` : installCmd,
       buildCmd: buildCmd.trim(),
       preSetupScript: preSetupScript.trim(),
       postSetupScript: postSetupScript.trim(),
       envVars: envVarsObj,
       pm2Options,
     };
-  }, [envVars, pm2Opts, repoUrl, branch, startScript, installCmd, buildCmd, preSetupScript, postSetupScript]);
+  }, [envVars, pm2Opts, repoUrl, branch, startScript, installCmd, installArgs, buildCmd, preSetupScript, postSetupScript]);
 
   const onSubmit = useCallback(
     async (e) => {
@@ -347,12 +359,12 @@ function DeployForm({ csrfToken, onDeployStarted, editingDeployment, onEditSaved
               onChange={isEdit ? undefined : (e) => setAppName(e.target.value)}
             />
           </Field>
-          <Field label="Repo URL" required hint="HTTPS URL of a GitHub or GitLab repository, e.g. https://github.com/owner/repo. For private repos the server needs an SSH key or credential helper configured.">
+          <Field label="Repo URL" required hint="HTTPS URL (e.g. https://github.com/owner/repo) or SSH URL (e.g. git@github.com:owner/repo.git). For private repos the server needs an SSH key or credential helper configured.">
             <input
               className="settings-input"
-              type="url"
+              type="text"
               required
-              placeholder="https://github.com/owner/repo"
+              placeholder="https://github.com/owner/repo or git@github.com:owner/repo.git"
               value={repoUrl}
               onChange={(e) => setRepoUrl(e.target.value)}
             />
@@ -455,6 +467,17 @@ function DeployForm({ csrfToken, onDeployStarted, editingDeployment, onEditSaved
               <option value="skip">Skip (no install)</option>
             </select>
           </Field>
+          {installCmd !== 'skip' && (
+            <Field label="Extra install flags" hint="Additional flags appended to the install command, e.g. --prod or --frozen-lockfile.">
+              <input
+                className="settings-input"
+                type="text"
+                placeholder="e.g. --prod"
+                value={installArgs}
+                onChange={(e) => setInstallArgs(e.target.value)}
+              />
+            </Field>
+          )}
           <Field label="Build command" hint="Optional build step after installing, e.g. npm run build or tsc. Leave blank to skip.">
             <input
               className="settings-input"
