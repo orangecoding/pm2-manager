@@ -63,7 +63,7 @@ export default function ProcessList({processes, selectedProcessId, status, onSel
                             }}
                         >
                             <div className="process-item-top">
-                                <span className="process-title">{proc.name}</span>
+                                <span className="process-item-title">{proc.name}</span>
                                 <span className="process-item-controls">
                                     {proc.isMonitored && (
                                         <button
@@ -105,7 +105,7 @@ export default function ProcessList({processes, selectedProcessId, status, onSel
                                     )}
                                 </div>
                             )}
-                            <span className="process-status">
+                            <span className="process-item-status">
                                 {proc.isOrphan
                                     ?   <button
                                             className="process-item-orphan"

@@ -22147,7 +22147,7 @@
             }
           }
         },
-        /* @__PURE__ */ import_react.default.createElement("div", { className: "process-item-top" }, /* @__PURE__ */ import_react.default.createElement("span", { className: "process-title" }, proc.name), /* @__PURE__ */ import_react.default.createElement("span", { className: "process-item-controls" }, proc.isMonitored && /* @__PURE__ */ import_react.default.createElement(
+        /* @__PURE__ */ import_react.default.createElement("div", { className: "process-item-top" }, /* @__PURE__ */ import_react.default.createElement("span", { className: "process-item-title" }, proc.name), /* @__PURE__ */ import_react.default.createElement("span", { className: "process-item-controls" }, proc.isMonitored && /* @__PURE__ */ import_react.default.createElement(
           "button",
           {
             className: `bell-btn${proc.alertsEnabled === false ? " bell-disabled" : ""}`,
@@ -22172,7 +22172,7 @@
           },
           "Edit / Redeploy"
         )),
-        /* @__PURE__ */ import_react.default.createElement("span", { className: "process-status" }, proc.isOrphan ? /* @__PURE__ */ import_react.default.createElement(
+        /* @__PURE__ */ import_react.default.createElement("span", { className: "process-item-status" }, proc.isOrphan ? /* @__PURE__ */ import_react.default.createElement(
           "button",
           {
             className: "process-item-orphan",
@@ -33809,3 +33809,4 @@ react/cjs/react-jsx-runtime.development.js:
    * LICENSE file in the root directory of this source tree.
    *)
 */
+//# sourceMappingURL=app.js.map
