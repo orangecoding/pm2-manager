@@ -26,7 +26,6 @@ public/!.gitkeep
 # Logs
 logs
 *.log
-npm-debug.log*
 
 tools/release/config.json
 .claude

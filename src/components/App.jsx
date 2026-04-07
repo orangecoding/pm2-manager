@@ -104,9 +104,8 @@ export default function App() {
                 if (payload.metricsRetentionMs) setMetricsRetentionMs(payload.metricsRetentionMs);
                 if (payload.logsRetentionMs) setLogsRetentionMs(payload.logsRetentionMs);
                 if (payload.config) setAppConfig(payload.config);
+                return Promise.all([loadProcesses(), loadDeployments()]);
             })
-            .then(loadProcesses)
-            .then(loadDeployments)
             .catch((sessionError) => setError(sessionError.message));
     }, [loadProcesses, loadDeployments]);
 
@@ -164,6 +163,12 @@ export default function App() {
     );
 
     const isSelectedMonitored = selectedProcess?.isMonitored ?? false;
+
+    /** @type {object|null} Deployment record for the currently selected process, or null. */
+    const selectedDeployment = useMemo(
+        () => deployments.find((d) => d.pm2_name === selectedProcess?.name) ?? null,
+        [deployments, selectedProcess]
+    );
 
     // Fetch stored logs whenever the selected process changes, regardless of monitoring
     // state.  storedLogsReady gates the switch in allLines so combinedLines remain
@@ -545,7 +550,7 @@ export default function App() {
                     onRestart={onRestart}
                     onDelete={onDelete}
                     onRemoveOrphan={onRemoveOrphan}
-                    selectedDeployment={deployments.find((d) => d.pm2_name === selectedProcess?.name) ?? null}
+                    selectedDeployment={selectedDeployment}
                     actions={actions}
                     selectedProcessId={selectedProcessId}
                     csrfToken={csrfToken}

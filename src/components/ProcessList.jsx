@@ -3,7 +3,7 @@
  * Licensed under Apache-2.0 with Commons Clause and Attribution/Naming Clause
  */
 
-import React from 'react';
+import React, {useMemo} from 'react';
 import {formatBytes, getStatusTone} from '../services/format.js';
 
 /**
@@ -30,6 +30,12 @@ import {formatBytes, getStatusTone} from '../services/format.js';
  * }} props
  */
 export default function ProcessList({processes, selectedProcessId, status, onSelect, onOpenSettings, onOpenDeploy, onToggleAlert, deployments = [], onEditDeployment, onRemoveOrphan}) {
+    /** @type {Set<string>} O(1) lookup for deployed process names */
+    const deployedNames = useMemo(
+        () => new Set(deployments.map((d) => d.pm2_name)),
+        [deployments]
+    );
+
     return (
         <aside className="sidebar section-shell">
             <div className="brand-card">
@@ -83,7 +89,7 @@ export default function ProcessList({processes, selectedProcessId, status, onSel
                                     <span className={`status-indicator ${getStatusTone(proc.status)}`}/>
                                 </span>
                             </div>
-                            {(proc.isMonitored || deployments.some((d) => d.pm2_name === proc.name)) && (
+                            {(proc.isMonitored || deployedNames.has(proc.name)) && (
                                 <div className="monitor-tag-row">
                                     {proc.isMonitored && (
                                         <span className="monitor-tag" title="Metrics and logs are being stored">
@@ -91,7 +97,7 @@ export default function ProcessList({processes, selectedProcessId, status, onSel
                                             Monitored
                                         </span>
                                     )}
-                                    {deployments.some((d) => d.pm2_name === proc.name) && (
+                                    {deployedNames.has(proc.name) && (
                                         <button
                                             className="edit-deploy-btn"
                                             title="Edit configuration or trigger a redeploy"

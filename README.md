@@ -146,14 +146,14 @@ chmod +x update.sh
 If PM2-Hawkeye is not running under PM2 when the script finishes, it will print the commands to start it manually.
 
 > [!NOTE]
-> **Database location** — by default the database is written to `./data/pm2-hawkeye.db` inside the project directory. If you update by replacing the project folder (e.g. re-cloning), this file will be lost. Point `SQLITE_DB_PATH` at a directory outside the project to keep your data safe across updates (`pm2-hawkeye.db` is created inside it automatically):
+> **Database location** - by default the database is written to `./data/pm2-hawkeye.db` inside the project directory. If you update by replacing the project folder (e.g. re-cloning), this file will be lost. Point `SQLITE_DB_PATH` at a directory outside the project to keep your data safe across updates (`pm2-hawkeye.db` is created inside it automatically):
 > ```bash
 > SQLITE_DB_PATH=/var/lib/pm2-hawkeye
 > ```
 > Create the directory first: `mkdir -p /var/lib/pm2-hawkeye`
 
 > [!NOTE]
-> **PM2 timestamps** — PM2-Hawkeye merges stdout and stderr and sorts log lines chronologically. This requires PM2 to prefix each line with a timestamp. Always start your processes with `--time`:
+> **PM2 timestamps** - PM2-Hawkeye merges stdout and stderr and sorts log lines chronologically. This requires PM2 to prefix each line with a timestamp. Always start your processes with `--time`:
 > ```bash
 > pm2 start app.js --name my-app --time
 > ```

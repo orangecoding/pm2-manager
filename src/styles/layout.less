@@ -4,11 +4,10 @@
   display: grid;
   grid-template-columns: 18.75rem minmax(0, 1fr);
   grid-template-rows: 1fr auto;
-  gap: 0.0625rem;
   max-width: 107.5rem;
   height: 100vh;
   margin: 0 auto;
-  background: var(--border);
+  background: var(--bg-0);
 }
 
 .sidebar {
@@ -17,6 +16,7 @@
   flex-direction: column;
   gap: 0;
   background: var(--bg-1);
+  border-right: 0.0625rem solid var(--border);
   height: 100%;
   overflow: hidden;
 }
@@ -36,8 +36,8 @@
   grid-row: 1;
   display: flex;
   flex-direction: column;
-  gap: 0.0625rem;
-  background: var(--border);
+  gap: 0;
+  background: var(--bg-1);
   min-width: 0;
   height: 100%;
   overflow-y: auto;
@@ -45,12 +45,13 @@
 
 .hero-card,
 .panel {
-  padding: 1rem 2rem;
-  animation: rise 380ms ease both;
+  padding: 1rem 1.5rem;
+  animation: rise 220ms ease both;
 }
 
 .hero-card {
   flex-shrink: 0;
+  border-bottom: 0.0625rem solid var(--border);
 }
 
 .panel {
@@ -133,7 +134,51 @@
   .sidebar {
     grid-row: 1;
     height: auto;
-    max-height: 40vh;
+    overflow: visible;
+    border-right: none;
+    border-bottom: 0.0625rem solid var(--border);
+  }
+
+  .brand-card {
+    display: none;
+  }
+
+  // The process list becomes a horizontal scrollable chip strip on mobile.
+  .process-list {
+    flex-direction: row;
+    overflow-x: auto;
+    overflow-y: hidden;
+    flex-wrap: nowrap;
+    flex: 0 0 auto;
+    padding: 0.25rem 0.5rem;
+    gap: 0;
+    min-height: 0;
+  }
+
+  .process-item {
+    flex-direction: row;
+    align-items: center;
+    width: auto;
+    flex-shrink: 0;
+    padding: 0.5rem 0.875rem;
+    border-bottom: none;
+    border-right: 0.0625rem solid var(--border);
+    white-space: nowrap;
+    gap: 0.5rem;
+
+    &.active {
+      border-left: none;
+      border-bottom: 0.125rem solid var(--accent);
+    }
+
+    &.monitored {
+      border-left: none;
+    }
+  }
+
+  .process-item-status,
+  .monitor-tag-row {
+    display: none;
   }
 
   .content {
@@ -158,7 +203,7 @@
 @media (max-width: 47.5rem) {
   .hero-card,
   .panel {
-    padding: 1.25rem;
+    padding: 1rem;
   }
 
   .hero-card,
