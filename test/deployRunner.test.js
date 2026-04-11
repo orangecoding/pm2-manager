@@ -140,5 +140,20 @@ describe('deployRunner validators', () => {
         }),
       ).catch(done);
     });
+
+    it('accepts an absolute path outside the deploy directory', (done) => {
+      import('node:fs').then(({ promises: fsp }) =>
+        import('node:os').then(async (osModule) => {
+          const dir = await fsp.mkdtemp(osModule.default.tmpdir() + path.sep + 'hawkeye-test-');
+          const absEnvPath = path.join(dir, 'secrets.env');
+          await fsp.writeFile(absEnvPath, 'SECRET=abc123\n');
+          // Pass the absolute path directly - deploy_path points somewhere else.
+          const result = parseEnvFile('/some/other/deploy/path', absEnvPath);
+          assert.equal(result.SECRET, 'abc123');
+          await fsp.rm(dir, { recursive: true });
+          done();
+        }),
+      ).catch(done);
+    });
   });
 });

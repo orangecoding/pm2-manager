@@ -521,7 +521,7 @@ function DeployForm({ csrfToken, onCsrfRefresh, onDeployStarted, editingDeployme
           title="Environment"
           info="Variables injected into the process environment. You can point to a .env file already present in the repo, add explicit key-value pairs, or both. Explicit variables always take precedence over file values."
         >
-          <Field label="Env file" hint="Relative path to a .env file inside the repo, e.g. .env.production. Read at every deploy and redeploy. Values follow the KEY=value format; lines starting with # are ignored.">
+          <Field label="Env file" hint="Path to a .env file: relative to the repo root (e.g. .env.production) or absolute on the server (e.g. /etc/myapp/.env). Read at every deploy and redeploy. Values follow the KEY=value format; lines starting with # are ignored.">
             <input
               className="settings-input"
               type="text"
